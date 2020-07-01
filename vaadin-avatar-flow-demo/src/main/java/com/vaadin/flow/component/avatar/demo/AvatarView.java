@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2017 Vaadin Ltd.
+ * Copyright 2000-2020 Vaadin Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -30,15 +30,19 @@ public class AvatarView extends DemoView {
 
     @Override
     public void initView() {
-        Avatar avatar = new Avatar();
-        add(avatar);
+        createBasicAvatar();
     }
 
     private void createBasicAvatar() {
         // begin-source-example
-        // source-example-heading: Basic avatar usage
-        // avatar.setImg;
+        // source-example-heading: Basic avatar
+        Avatar avatar = new Avatar();
+
+        add(avatar);
         // end-source-example
+
+        avatar.setId("basic-tabs");
+        addCard("Horizontal tabs", avatar);
     }
 
 }

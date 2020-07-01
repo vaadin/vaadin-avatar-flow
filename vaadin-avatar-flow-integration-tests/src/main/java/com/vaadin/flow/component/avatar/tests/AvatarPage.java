@@ -16,7 +16,6 @@
 package com.vaadin.flow.component.avatar.tests;
 
 import com.vaadin.flow.component.avatar.Avatar;
-import com.vaadin.flow.component.avatar.AvatarGroup;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.router.Route;
 

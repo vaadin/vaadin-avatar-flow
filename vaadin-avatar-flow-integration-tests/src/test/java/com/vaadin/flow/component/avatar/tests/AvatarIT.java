@@ -16,12 +16,10 @@
 
 package com.vaadin.flow.component.avatar.tests;
 
-import org.junit.Test;
-
 import com.vaadin.flow.component.avatar.demo.AvatarView;
 import com.vaadin.flow.demo.ComponentDemoTest;
-
-import static org.junit.Assert.assertTrue;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Integration tests for the {@link AvatarView}.
@@ -32,11 +30,11 @@ public class AvatarIT extends ComponentDemoTest {
 
     @Test
     public void shouldHaveTests() {
-        assertTrue(true);
+        Assert.assertTrue(true);
     }
 
     @Override
     protected String getTestPath() {
-        return "/avatar";
+        return "/vaadin-avatar";
     }
 }
