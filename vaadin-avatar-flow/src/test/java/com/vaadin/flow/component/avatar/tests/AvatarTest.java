@@ -16,10 +16,10 @@
 
 package com.vaadin.flow.component.avatar.tests;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.vaadin.flow.component.avatar.Avatar;
-import static org.junit.Assert.assertTrue;
 
 /**
  * @author Vaadin Ltd.
@@ -27,10 +27,59 @@ import static org.junit.Assert.assertTrue;
 public class AvatarTest {
 
     private Avatar avatar = new Avatar();
+    private Avatar constructedAvatar;
+    String name = "foo bar";
+    String abbr = "fb";
+    String imgLink = "https://vaadin.com/";
 
     @Test
-    public void shouldHaveSomeTests() {
-        assertTrue(true);
+    public void shouldCreateEmptyAvatarWithDefaultState() {
+
+        Assert.assertNull("Initial imgLink is null", avatar.getImgLink());
+        Assert.assertNull("Initial name is null", avatar.getName());
+        Assert.assertNull("Initial abbr is null", avatar.getAbbr());
+
+    }
+
+    @Test
+    public void setName_getName() {
+        avatar.setName(name);
+        Assert.assertEquals(avatar.getName(), name);
+    }
+
+    @Test
+    public void setAbbr_getAbbr() {
+        avatar.setAbbr(abbr);
+        Assert.assertEquals(avatar.getAbbr(), abbr);
+    }
+
+    @Test
+    public void setImgLink_getImgLink() {
+        avatar.setImgLink(imgLink);
+        Assert.assertEquals(avatar.getImgLink(), imgLink);
+    }
+
+    @Test
+    public void constructAvatarWithImgLink() {
+        constructedAvatar = new Avatar(imgLink);
+        Assert.assertEquals(constructedAvatar.getImgLink(), imgLink);
+    }
+
+    @Test
+    public void constructAvatarWithImgLinkAndAbbr() {
+        constructedAvatar = new Avatar(imgLink, abbr);
+
+        Assert.assertEquals(constructedAvatar.getImgLink(), imgLink);
+        Assert.assertEquals(constructedAvatar.getAbbr(), abbr);
+    }
+
+    @Test
+    public void constructAvatarWithImgLinkAndAbbrAndName() {
+        constructedAvatar = new Avatar(imgLink, abbr, name);
+
+        Assert.assertEquals(constructedAvatar.getImgLink(), imgLink);
+        Assert.assertEquals(constructedAvatar.getAbbr(), abbr);
+        Assert.assertEquals(constructedAvatar.getName(), name);
     }
 
 }

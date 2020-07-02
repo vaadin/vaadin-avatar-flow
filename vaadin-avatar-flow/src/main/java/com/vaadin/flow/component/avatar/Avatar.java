@@ -19,6 +19,7 @@ package com.vaadin.flow.component.avatar;
 import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.HasTheme;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Synchronize;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.dependency.NpmPackage;
@@ -33,6 +34,99 @@ public class Avatar extends Component
      * Creates an empty avatar component.
      */
     public Avatar() {
+    }
+
+    /**
+     * Constructs a new object with the ... .
+     *
+     * @param imgLink
+     *            the ...
+     */
+    public Avatar(String imgLink) {
+        setImgLink(imgLink);
+    }
+
+    /**
+     * Constructs a new object with the ... .
+     *
+     * @param imgLink
+     *            the ...
+     */
+    public Avatar(String imgLink, String abbr) {
+        setImgLink(imgLink);
+        setAbbr(abbr);
+    }
+
+    /**
+     * Constructs a new object with the ... .
+     *
+     * @param imgLink
+     *            the ...
+     */
+    public Avatar(String imgLink, String abbr, String name) {
+        setImgLink(imgLink);
+        setAbbr(abbr);
+        setName(name);
+    }
+
+    /**
+     * Gets the ...
+     *
+     * @return the ...
+     */
+    @Synchronize(property = "name", value = "name-changed")
+    public String getName() {
+        return getElement().getProperty("name");
+    }
+
+    /**
+     * Sets the ...
+     *
+     * @param name
+     *            the ...
+     */
+    public void setName(String name) {
+        getElement().setProperty("name", name);
+    }
+
+    /**
+     * Gets the ...
+     *
+     * @return the ...
+     */
+    @Synchronize(property = "abbr", value = "abbr-changed")
+    public String getAbbr() {
+        return getElement().getProperty("abbr");
+    }
+
+    /**
+     * Sets the ...
+     *
+     * @param abbr
+     *            the ...
+     */
+    public void setAbbr(String abbr) {
+        getElement().setProperty("abbr", abbr);
+    }
+
+    /**
+     * Gets the ...
+     *
+     * @return the ...
+     */
+    @Synchronize(property = "img", value = "img-changed")
+    public String getImgLink() {
+        return getElement().getProperty("img");
+    }
+
+    /**
+     * Sets the ...
+     *
+     * @param imgLink
+     *            the ...
+     */
+    public void setImgLink(String imgLink) {
+        getElement().setProperty("img", imgLink);
     }
 
 }
