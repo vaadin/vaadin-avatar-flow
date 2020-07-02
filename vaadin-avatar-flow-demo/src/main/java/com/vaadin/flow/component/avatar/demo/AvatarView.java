@@ -17,8 +17,15 @@
 package com.vaadin.flow.component.avatar.demo;
 
 import com.vaadin.flow.component.avatar.Avatar;
+import com.vaadin.flow.component.checkbox.CheckboxGroupVariant;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.demo.DemoView;
 import com.vaadin.flow.router.Route;
+
+import com.vaadin.flow.component.checkbox.Checkbox;
+import com.vaadin.flow.component.checkbox.CheckboxGroup;
+
+import java.util.Collections;
 
 /**
  * View for {@link Avatar} demo.
@@ -31,18 +38,68 @@ public class AvatarView extends DemoView {
     @Override
     public void initView() {
         createBasicAvatar();
+        createAvatarWithCombinedFields();
     }
 
     private void createBasicAvatar() {
         // begin-source-example
-        // source-example-heading: Basic avatar
+        // source-example-heading: Basic usage
+        Avatar anonymousAvatar = new Avatar();
+
+        Avatar avatarWithAbbr = new Avatar();
+        avatarWithAbbr.setAbbr("YY");
+
+        Avatar avatarWithName = new Avatar();
+        avatarWithName.setName("Yuriy Yevstihnyeyev");
+
+        Avatar avatarWithImg = new Avatar();
+        avatarWithImg.setImgLink("https://vaadin.com/static/content/view/company/team/photos/Yuriy-Yevstihnyeyev.JPG");
+
+        add(anonymousAvatar, avatarWithAbbr, avatarWithName, avatarWithImg);
+        // end-source-example
+        Div container = new Div(anonymousAvatar, avatarWithAbbr, avatarWithName, avatarWithImg);
+
+        addCard("Basic usage", container);
+    }
+
+    private void createAvatarWithCombinedFields() {
+        // begin-source-example
+        // source-example-heading: Combined fields
         Avatar avatar = new Avatar();
+        avatar.setImgLink("https://vaadin.com/static/content/view/company/team/photos/Yuriy-Yevstihnyeyev.JPG");
 
         add(avatar);
         // end-source-example
 
-        avatar.setId("basic-tabs");
-        addCard("Horizontal tabs", avatar);
+        CheckboxGroup checkboxGroup = new CheckboxGroup();
+        checkboxGroup.setLabel("Set fields values");
+        checkboxGroup.setItems("setImgLink(\"photos/Yuriy-Yevstihnyeyev.JPG\")", "setName(\"Serhii Kulykov\")", "setAbbr(\"YY\")");
+        checkboxGroup.setValue(Collections.singleton("setImgLink(\"photos/Yuriy-Yevstihnyeyev.JPG\")"));
+        checkboxGroup.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL);
+
+        checkboxGroup.addValueChangeListener(e -> {
+            String valueString = e.getValue().toString();
+
+            if (valueString.indexOf("setImgLink") > -1) {
+                avatar.setImgLink("https://vaadin.com/static/content/view/company/team/photos/Yuriy-Yevstihnyeyev.JPG");
+            } else {
+                avatar.setImgLink(null);
+            }
+
+            if (valueString.indexOf("setName") > -1) {
+                avatar.setName("Serhii Kulykov");
+            } else {
+                avatar.setName(null);
+            }
+
+            if (valueString.indexOf("setAbbr") > -1) {
+                avatar.setAbbr("YY");
+            } else {
+                avatar.setAbbr(null);
+            }
+        });
+
+        addCard("Combined fields", avatar, checkboxGroup);
     }
 
 }
