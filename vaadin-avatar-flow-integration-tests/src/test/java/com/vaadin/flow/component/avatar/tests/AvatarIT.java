@@ -18,19 +18,63 @@ package com.vaadin.flow.component.avatar.tests;
 
 import com.vaadin.flow.component.avatar.demo.AvatarView;
 import com.vaadin.flow.demo.ComponentDemoTest;
+import com.vaadin.testbench.annotations.RunLocally;
+import com.vaadin.testbench.parallel.Browser;
 import org.junit.Assert;
 import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 /**
  * Integration tests for the {@link AvatarView}.
  *
  * @author Vaadin Ltd.
  */
+@RunLocally(Browser.CHROME)
 public class AvatarIT extends ComponentDemoTest {
 
     @Test
-    public void shouldHaveTests() {
-        Assert.assertTrue(true);
+    public void propertiesAreSet() {
+        WebElement toggleImg = layout.findElement(By.id("toggle-img"));
+        WebElement toggleAbbr = layout.findElement(By.id("toggle-abbr"));
+        WebElement toggleName = layout.findElement(By.id("toggle-name"));
+
+        WebElement imgBlock = layout.findElement(By.id("data-block-img"));
+        WebElement abbrBlock = layout.findElement(By.id("data-block-abbr"));
+        WebElement nameBlock = layout.findElement(By.id("data-block-name"));
+
+        toggleImg.click();
+        Assert.assertEquals("https://vaadin.com/", imgBlock.getText());
+
+        toggleAbbr.click();
+        Assert.assertEquals("BB", abbrBlock.getText());
+
+        toggleName.click();
+        Assert.assertEquals("Foo Bar", nameBlock.getText());
+    }
+
+    @Test
+    public void propertiesAreUnset() {
+        WebElement toggleImg = layout.findElement(By.id("toggle-img"));
+        WebElement toggleAbbr = layout.findElement(By.id("toggle-abbr"));
+        WebElement toggleName = layout.findElement(By.id("toggle-name"));
+
+        WebElement imgBlock = layout.findElement(By.id("data-block-img"));
+        WebElement abbrBlock = layout.findElement(By.id("data-block-abbr"));
+        WebElement nameBlock = layout.findElement(By.id("data-block-name"));
+
+        toggleImg.click();
+        toggleAbbr.click();
+        toggleName.click();
+
+        toggleImg.click();
+        Assert.assertNull(imgBlock.getText());
+
+        toggleAbbr.click();
+        Assert.assertNull(abbrBlock.getText());
+
+        toggleName.click();
+        Assert.assertNull(nameBlock.getText());
     }
 
     @Override
