@@ -25,7 +25,7 @@ import com.vaadin.flow.component.dependency.NpmPackage;
 
 @Tag("vaadin-avatar")
 @JsModule("@vaadin/vaadin-avatar/src/vaadin-avatar.js")
-@NpmPackage(value = "@vaadin/vaadin-avatar", version = "1.0.0-alpha1")
+@NpmPackage(value = "@vaadin/vaadin-avatar", version = "1.0.0-alpha2")
 public class Avatar extends Component
     implements HasStyle, HasTheme {
 

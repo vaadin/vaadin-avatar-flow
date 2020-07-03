@@ -19,7 +19,7 @@ package com.vaadin.flow.component.avatar.tests;
 import org.junit.Test;
 
 import com.vaadin.flow.component.avatar.Avatar;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Vaadin Ltd.
