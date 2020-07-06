@@ -37,42 +37,54 @@ public class Avatar extends Component
     }
 
     /**
-     * Constructs a new object with the ... .
+     * Constructs a new avatar with the provided name.
      *
-     * @param imgLink
-     *            the ...
+     * @param name
+     *            the name for the avatar
      */
-    public Avatar(String imgLink) {
-        setImgLink(imgLink);
-    }
-
-    /**
-     * Constructs a new object with the ... .
-     *
-     * @param imgLink
-     *            the ...
-     */
-    public Avatar(String imgLink, String abbr) {
-        setImgLink(imgLink);
-        setAbbr(abbr);
-    }
-
-    /**
-     * Constructs a new object with the ... .
-     *
-     * @param imgLink
-     *            the ...
-     */
-    public Avatar(String imgLink, String abbr, String name) {
-        setImgLink(imgLink);
-        setAbbr(abbr);
+    public Avatar(String name) {
         setName(name);
     }
 
     /**
-     * Gets the ...
+     * Constructs a new avatar with the provided name and abbreviation.
+     * <p>
+     * Abbreviation has higher priority than name and will be displayed in case
+     * both are set. Name will be used for the title in that case.
      *
-     * @return the ...
+     * @param name
+     *            the name for the avatar
+     * @param abbr
+     *            the abbreviation for the avatar
+     */
+    public Avatar(String name, String abbr) {
+        setName(name);
+        setAbbr(abbr);
+    }
+
+    /**
+     * Constructs a new avatar with the provided image link.
+     * <p>
+     * Image has higher priority than abbreviation and name, so will be
+     * displayed if all are set.
+     *
+     * @param name
+     *            the name for the avatar
+     * @param abbr
+     *            the abbreviation for the avatar
+     * @param imgLink
+     *            the image link for the avatar
+     */
+    public Avatar(String name, String abbr, String imgLink) {
+        setName(name);
+        setAbbr(abbr);
+        setImgLink(imgLink);
+    }
+
+    /**
+     * Gets the name that was set for the avatar.
+     *
+     * @return the name
      */
     @Synchronize(property = "name", value = "name-changed")
     public String getName() {
@@ -80,19 +92,19 @@ public class Avatar extends Component
     }
 
     /**
-     * Sets the ...
+     * Sets the name for the avatar.
      *
      * @param name
-     *            the ...
+     *            the name for the avatar
      */
     public void setName(String name) {
         getElement().setProperty("name", name);
     }
 
     /**
-     * Gets the ...
+     * Gets the abbreviation that was set for the avatar.
      *
-     * @return the ...
+     * @return the abbreviation
      */
     @Synchronize(property = "abbr", value = "abbr-changed")
     public String getAbbr() {
@@ -100,19 +112,22 @@ public class Avatar extends Component
     }
 
     /**
-     * Sets the ...
+     * Sets the abbreviation for the avatar.
+     * <p>
+     * Abbreviation has higher priority than name and will be displayed in case
+     * both are set.
      *
      * @param abbr
-     *            the ...
+     *            the abbreviation
      */
     public void setAbbr(String abbr) {
         getElement().setProperty("abbr", abbr);
     }
 
     /**
-     * Gets the ...
+     * Gets the image link that was set for the avatar.
      *
-     * @return the ...
+     * @return the image link
      */
     @Synchronize(property = "img", value = "img-changed")
     public String getImgLink() {
@@ -120,10 +135,13 @@ public class Avatar extends Component
     }
 
     /**
-     * Sets the ...
+     * Sets the image link for the avatar.
+     * <p>
+     * Image has higher priority than abbreviation and name, so will be
+     * displayed if all are set.
      *
      * @param imgLink
-     *            the ...
+     *            the image link
      */
     public void setImgLink(String imgLink) {
         getElement().setProperty("img", imgLink);

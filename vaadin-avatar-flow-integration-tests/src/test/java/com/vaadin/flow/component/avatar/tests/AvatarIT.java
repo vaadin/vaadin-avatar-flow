@@ -17,10 +17,12 @@
 package com.vaadin.flow.component.avatar.tests;
 
 import com.vaadin.flow.component.avatar.demo.AvatarView;
-import com.vaadin.flow.demo.ComponentDemoTest;
+import com.vaadin.flow.testutil.AbstractComponentIT;
+import com.vaadin.flow.testutil.TestPath;
 import com.vaadin.testbench.annotations.RunLocally;
 import com.vaadin.testbench.parallel.Browser;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -31,54 +33,65 @@ import org.openqa.selenium.WebElement;
  * @author Vaadin Ltd.
  */
 @RunLocally(Browser.CHROME)
-public class AvatarIT extends ComponentDemoTest {
+@TestPath("avatar-test")
+public class AvatarIT extends AbstractComponentIT {
+
+    private WebElement getPropsBtn;
+
+    @Before
+    public void init() {
+        open();
+        getPropsBtn = findElement(By.id("get-props"));
+    }
 
     @Test
     public void propertiesAreSet() {
-        WebElement toggleImg = layout.findElement(By.id("toggle-img"));
-        WebElement toggleAbbr = layout.findElement(By.id("toggle-abbr"));
-        WebElement toggleName = layout.findElement(By.id("toggle-name"));
+        WebElement toggleImg = findElement(By.id("toggle-img"));
+        WebElement toggleAbbr = findElement(By.id("toggle-abbr"));
+        WebElement toggleName = findElement(By.id("toggle-name"));
 
-        WebElement imgBlock = layout.findElement(By.id("data-block-img"));
-        WebElement abbrBlock = layout.findElement(By.id("data-block-abbr"));
-        WebElement nameBlock = layout.findElement(By.id("data-block-name"));
+        WebElement imgBlock = findElement(By.id("data-block-img"));
+        WebElement abbrBlock = findElement(By.id("data-block-abbr"));
+        WebElement nameBlock = findElement(By.id("data-block-name"));
 
         toggleImg.click();
+        getPropsBtn.click();
         Assert.assertEquals("https://vaadin.com/", imgBlock.getText());
 
         toggleAbbr.click();
+        getPropsBtn.click();
         Assert.assertEquals("BB", abbrBlock.getText());
 
         toggleName.click();
+        getPropsBtn.click();
         Assert.assertEquals("Foo Bar", nameBlock.getText());
     }
 
     @Test
     public void propertiesAreUnset() {
-        WebElement toggleImg = layout.findElement(By.id("toggle-img"));
-        WebElement toggleAbbr = layout.findElement(By.id("toggle-abbr"));
-        WebElement toggleName = layout.findElement(By.id("toggle-name"));
+        WebElement toggleImg = findElement(By.id("toggle-img"));
+        WebElement toggleAbbr = findElement(By.id("toggle-abbr"));
+        WebElement toggleName = findElement(By.id("toggle-name"));
 
-        WebElement imgBlock = layout.findElement(By.id("data-block-img"));
-        WebElement abbrBlock = layout.findElement(By.id("data-block-abbr"));
-        WebElement nameBlock = layout.findElement(By.id("data-block-name"));
+        WebElement imgBlock = findElement(By.id("data-block-img"));
+        WebElement abbrBlock = findElement(By.id("data-block-abbr"));
+        WebElement nameBlock = findElement(By.id("data-block-name"));
 
         toggleImg.click();
         toggleAbbr.click();
         toggleName.click();
+        getPropsBtn.click();
 
         toggleImg.click();
-        Assert.assertNull(imgBlock.getText());
+        getPropsBtn.click();
+        Assert.assertEquals("", imgBlock.getText());
 
         toggleAbbr.click();
-        Assert.assertNull(abbrBlock.getText());
+        getPropsBtn.click();
+        Assert.assertEquals("", abbrBlock.getText());
 
         toggleName.click();
-        Assert.assertNull(nameBlock.getText());
-    }
-
-    @Override
-    protected String getTestPath() {
-        return "/vaadin-avatar";
+        getPropsBtn.click();
+        Assert.assertEquals("", nameBlock.getText());
     }
 }

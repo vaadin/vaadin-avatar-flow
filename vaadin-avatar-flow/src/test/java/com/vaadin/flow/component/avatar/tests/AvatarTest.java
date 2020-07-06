@@ -34,11 +34,9 @@ public class AvatarTest {
 
     @Test
     public void shouldCreateEmptyAvatarWithDefaultState() {
-
-        Assert.assertNull("Initial imgLink is null", avatar.getImgLink());
         Assert.assertNull("Initial name is null", avatar.getName());
         Assert.assertNull("Initial abbr is null", avatar.getAbbr());
-
+        Assert.assertNull("Initial imgLink is null", avatar.getImgLink());
     }
 
     @Test
@@ -60,26 +58,26 @@ public class AvatarTest {
     }
 
     @Test
-    public void constructAvatarWithImgLink() {
-        constructedAvatar = new Avatar(imgLink);
-        Assert.assertEquals(constructedAvatar.getImgLink(), imgLink);
-    }
-
-    @Test
-    public void constructAvatarWithImgLinkAndAbbr() {
-        constructedAvatar = new Avatar(imgLink, abbr);
-
-        Assert.assertEquals(constructedAvatar.getImgLink(), imgLink);
-        Assert.assertEquals(constructedAvatar.getAbbr(), abbr);
-    }
-
-    @Test
-    public void constructAvatarWithImgLinkAndAbbrAndName() {
-        constructedAvatar = new Avatar(imgLink, abbr, name);
-
-        Assert.assertEquals(constructedAvatar.getImgLink(), imgLink);
-        Assert.assertEquals(constructedAvatar.getAbbr(), abbr);
+    public void constructAvatarWithName() {
+        constructedAvatar = new Avatar(name);
         Assert.assertEquals(constructedAvatar.getName(), name);
+    }
+
+    @Test
+    public void constructAvatarWithNameAndAbbr() {
+        constructedAvatar = new Avatar(name, abbr);
+
+        Assert.assertEquals(constructedAvatar.getName(), name);
+        Assert.assertEquals(constructedAvatar.getAbbr(), abbr);
+    }
+
+    @Test
+    public void constructAvatarWithNameAndAbbrAndImgLink() {
+        constructedAvatar = new Avatar(name, abbr, imgLink);
+
+        Assert.assertEquals(constructedAvatar.getName(), name);
+        Assert.assertEquals(constructedAvatar.getAbbr(), abbr);
+        Assert.assertEquals(constructedAvatar.getImgLink(), imgLink);
     }
 
 }

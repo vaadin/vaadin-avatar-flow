@@ -20,7 +20,7 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.NativeButton;
 import com.vaadin.flow.router.Route;
 
-@Route("avatar")
+@Route("avatar-test")
 public class AvatarPage extends Div {
 
     public AvatarPage() {
@@ -67,6 +67,7 @@ public class AvatarPage extends Div {
             dataAbbr.setText(avatar.getElement().getProperty("abbr"));
             dataName.setText(avatar.getElement().getProperty("name"));
         });
+        getPropertyValues.setId("get-props");
 
         add(avatar, toggleImgLink, toggleAbbr, toggleName, dataImg, dataAbbr, dataName, getPropertyValues);
     }
