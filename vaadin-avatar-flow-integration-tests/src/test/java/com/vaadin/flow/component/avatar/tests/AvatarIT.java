@@ -19,8 +19,6 @@ package com.vaadin.flow.component.avatar.tests;
 import com.vaadin.flow.component.avatar.demo.AvatarView;
 import com.vaadin.flow.testutil.AbstractComponentIT;
 import com.vaadin.flow.testutil.TestPath;
-import com.vaadin.testbench.annotations.RunLocally;
-import com.vaadin.testbench.parallel.Browser;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,7 +30,6 @@ import org.openqa.selenium.WebElement;
  *
  * @author Vaadin Ltd.
  */
-@RunLocally(Browser.CHROME)
 @TestPath("avatar-test")
 public class AvatarIT extends AbstractComponentIT {
 
