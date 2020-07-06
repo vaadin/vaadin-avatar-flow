@@ -86,7 +86,6 @@ public class Avatar extends Component
      *
      * @return the name
      */
-    @Synchronize(property = "name", value = "name-changed")
     public String getName() {
         return getElement().getProperty("name");
     }
@@ -129,7 +128,6 @@ public class Avatar extends Component
      *
      * @return the image link
      */
-    @Synchronize(property = "img", value = "img-changed")
     public String getImgLink() {
         return getElement().getProperty("img");
     }
