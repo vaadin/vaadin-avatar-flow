@@ -16,7 +16,13 @@
 
 package com.vaadin.flow.component.avatar.tests;
 
+import com.vaadin.flow.component.avatar.AvatarGroup;
+import com.vaadin.flow.component.avatar.AvatarGroup.AvatarGroupItem;
+import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
@@ -25,9 +31,75 @@ import static org.junit.Assert.assertTrue;
  */
 public class AvatarGroupTest {
 
+    private AvatarGroup avatarGroup = new AvatarGroup();
+    private AvatarGroupItem avatarGroupItem = new AvatarGroupItem();
+    private AvatarGroupItem avatarGroupItem2 = new AvatarGroupItem("Foo Bar");
+
+    private String name = "foo bar";
+    private String abbr = "fb";
+    private String imgUrl = "https://vaadin.com/";
+
+    private List<AvatarGroupItem> items = new ArrayList<>();
+
+
     @Test
     public void shouldHaveSomeTests() {
         assertTrue(true);
     }
+
+    @Test
+    public void setName_getName() {
+        avatarGroupItem.setName(name);
+        Assert.assertEquals(avatarGroupItem.getName(), name);
+    }
+
+    @Test
+    public void setAbbr_getAbbr() {
+        avatarGroupItem.setAbbreviation(abbr);
+        Assert.assertEquals(avatarGroupItem.getAbbreviation(), abbr);
+    }
+
+    @Test
+    public void setImgUrl_getImgUrl() {
+        avatarGroupItem.setImage(imgUrl);
+        Assert.assertEquals(avatarGroupItem.getImage(), imgUrl);
+    }
+
+    @Test
+    public void setCreatedItems_getCreatedItems() {
+        items.add(avatarGroupItem);
+        items.add(avatarGroupItem2);
+        avatarGroup.setItems(items);
+
+        Assert.assertEquals(items, avatarGroup.getItems());
+    }
+
+    @Test
+    public void createWithItems_getCreatedItems() {
+        items.add(avatarGroupItem);
+        items.add(avatarGroupItem2);
+        AvatarGroup createdAvatarGroup = new AvatarGroup(items);
+
+        Assert.assertEquals(items, createdAvatarGroup.getItems());
+    }
+
+    @Test
+    public void createWithVarargsItems_getCreatedItems() {
+        items.add(avatarGroupItem);
+        items.add(avatarGroupItem2);
+        AvatarGroup createdAvatarGroup = new AvatarGroup(avatarGroupItem, avatarGroupItem2);
+
+        Assert.assertEquals(items,
+                createdAvatarGroup.getItems());
+    }
+
+    @Test
+    public void setMax_getMax() {
+        avatarGroup.setMax(3);
+
+        Assert.assertEquals(new Integer(3),
+                avatarGroup.getMax());
+    }
+
 
 }

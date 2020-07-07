@@ -44,5 +44,4 @@ public class AvatarView extends DemoView {
         avatar.setId("basic-tabs");
         addCard("Horizontal tabs", avatar);
     }
-
 }
