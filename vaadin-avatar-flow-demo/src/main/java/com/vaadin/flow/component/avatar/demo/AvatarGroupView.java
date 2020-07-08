@@ -35,11 +35,12 @@ public class AvatarGroupView extends DemoView {
     @Override
     public void initView() {
         createBasicAvatarGroup();
+        createMaxAvatarGroup();
     }
 
     private void createBasicAvatarGroup() {
         // begin-source-example
-        // source-example-heading: Avatar group
+        // source-example-heading: Avatar Group
         AvatarGroup avatarGroup = new AvatarGroup();
 
         List<AvatarGroupItem> items = new ArrayList<>();
@@ -48,7 +49,6 @@ public class AvatarGroupView extends DemoView {
 
         AvatarGroupItem avatarWithAbbr = new AvatarGroupItem();
         avatarWithAbbr.setAbbreviation("SK");
-
         items.add(avatarWithAbbr);
 
         items.add(new AvatarGroupItem("Jens Jansson"));
@@ -59,7 +59,33 @@ public class AvatarGroupView extends DemoView {
         add(avatarGroup);
         // end-source-example
 
-        avatarGroup.setId("basic-avatar");
         addCard("Avatar Group", avatarGroup);
+    }
+
+    private void createMaxAvatarGroup() {
+        // begin-source-example
+        // source-example-heading: Setting Max
+        AvatarGroup avatarGroup = new AvatarGroup();
+
+        avatarGroup.setMax(3);
+
+        List<AvatarGroupItem> items = new ArrayList<>();
+
+        items.add(new AvatarGroupItem("Yuriy Yevstihnyeyev"));
+
+        AvatarGroupItem avatarWithAbbr = new AvatarGroupItem();
+        avatarWithAbbr.setAbbreviation("SK");
+        items.add(avatarWithAbbr);
+
+        items.add(new AvatarGroupItem("Leif Åstrand"));
+        items.add(new AvatarGroupItem("Jens Jansson"));
+        items.add(new AvatarGroupItem("Pekka Maanpää"));
+
+        avatarGroup.setItems(items);
+
+        add(avatarGroup);
+        // end-source-example
+
+        addCard("Setting Max", avatarGroup);
     }
 }

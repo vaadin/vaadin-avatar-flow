@@ -23,6 +23,7 @@ import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.dependency.NpmPackage;
 import elemental.json.Json;
+import elemental.json.JsonArray;
 import elemental.json.JsonObject;
 
 import java.util.ArrayList;
@@ -197,7 +198,7 @@ public class AvatarGroup extends Component
     public void setItems(Collection<AvatarGroupItem> items) {
         this.items = new ArrayList<>(items);
 
-        getElement().setProperty("items", items.toString());
+        setItems(createItemsJsonArray(items));
     }
 
     /**
@@ -209,7 +210,33 @@ public class AvatarGroup extends Component
     public void setItems(AvatarGroupItem... items) {
         this.items = new ArrayList<>(Arrays.asList(items));
 
-        getElement().setProperty("items", items.toString());
+        setItems(createItemsJsonArray(this.items));
+    }
+
+    private void setItems(JsonArray items) {
+        getElement().setPropertyJson("items", items);
+    }
+
+    private JsonArray createItemsJsonArray(Collection<AvatarGroupItem> items) {
+        JsonArray jsonItems = Json.createArray();
+        for (AvatarGroupItem item: items) {
+            JsonObject jsonItem = Json.createObject();
+            if (item.getName() != null) {
+                jsonItem.put("name", item.getName());
+            }
+
+            if (item.getAbbreviation() != null) {
+                jsonItem.put("abbr", item.getAbbreviation());
+            }
+
+            if (item.getImage() != null) {
+                jsonItem.put("img", item.getImage());
+            }
+
+            jsonItems.set(jsonItems.length(), jsonItem);
+        }
+
+        return jsonItems;
     }
 
     /**
