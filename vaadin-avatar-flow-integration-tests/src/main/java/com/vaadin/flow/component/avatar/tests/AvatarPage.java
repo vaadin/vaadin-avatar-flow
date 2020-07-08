@@ -26,20 +26,20 @@ public class AvatarPage extends Div {
     public AvatarPage() {
         Avatar avatar = new Avatar();
 
-        NativeButton toggleImgLink = new NativeButton("Toggle img", e -> {
-            if (avatar.getImgLink() == null || avatar.getImgLink().isEmpty()) {
-                avatar.setImgLink("https://vaadin.com/");
+        NativeButton toggleImage = new NativeButton("Toggle img", e -> {
+            if (avatar.getImage() == null || avatar.getImage().isEmpty()) {
+                avatar.setImage("https://vaadin.com/");
             } else {
-                avatar.setImgLink(null);
+                avatar.setImage(null);
             }
         });
-        toggleImgLink.setId("toggle-img");
+        toggleImage.setId("toggle-img");
 
         NativeButton toggleAbbr = new NativeButton("Toggle abbr", e -> {
-            if (avatar.getAbbr() == null || avatar.getAbbr().isEmpty()) {
-                avatar.setAbbr("BB");
+            if (avatar.getAbbreviation() == null || avatar.getAbbreviation().isEmpty()) {
+                avatar.setAbbreviation("BB");
             } else {
-                avatar.setAbbr(null);
+                avatar.setAbbreviation(null);
             }
         });
         toggleAbbr.setId("toggle-abbr");
@@ -69,6 +69,6 @@ public class AvatarPage extends Div {
         });
         getPropertyValues.setId("get-props");
 
-        add(avatar, toggleImgLink, toggleAbbr, toggleName, dataImg, dataAbbr, dataName, getPropertyValues);
+        add(avatar, toggleImage, toggleAbbr, toggleName, dataImg, dataAbbr, dataName, getPropertyValues);
     }
 }

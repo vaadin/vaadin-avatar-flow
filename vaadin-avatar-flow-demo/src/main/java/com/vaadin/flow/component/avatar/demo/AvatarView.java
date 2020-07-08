@@ -47,13 +47,13 @@ public class AvatarView extends DemoView {
         Avatar anonymousAvatar = new Avatar();
 
         Avatar avatarWithAbbr = new Avatar();
-        avatarWithAbbr.setAbbr("YY");
+        avatarWithAbbr.setAbbreviation("YY");
 
         Avatar avatarWithName = new Avatar();
         avatarWithName.setName("Yuriy Yevstihnyeyev");
 
         Avatar avatarWithImg = new Avatar();
-        avatarWithImg.setImgLink("https://vaadin.com/static/content/view/company/team/photos/Yuriy-Yevstihnyeyev.JPG");
+        avatarWithImg.setImage("https://vaadin.com/static/content/view/company/team/photos/Yuriy-Yevstihnyeyev.JPG");
 
         add(anonymousAvatar, avatarWithAbbr, avatarWithName, avatarWithImg);
         // end-source-example
@@ -66,7 +66,7 @@ public class AvatarView extends DemoView {
         // begin-source-example
         // source-example-heading: Combined fields
         Avatar avatar = new Avatar();
-        avatar.setImgLink("https://vaadin.com/static/content/view/company/team/photos/Yuriy-Yevstihnyeyev.JPG");
+        avatar.setImage("https://vaadin.com/static/content/view/company/team/photos/Yuriy-Yevstihnyeyev.JPG");
 
         add(avatar);
         // end-source-example
@@ -80,22 +80,22 @@ public class AvatarView extends DemoView {
         checkboxGroup.addValueChangeListener(e -> {
             String valueString = e.getValue().toString();
 
-            if (valueString.indexOf("setImgLink") > -1) {
-                avatar.setImgLink("https://vaadin.com/static/content/view/company/team/photos/Yuriy-Yevstihnyeyev.JPG");
+            if (valueString.contains("setImgLink")) {
+                avatar.setImage("https://vaadin.com/static/content/view/company/team/photos/Yuriy-Yevstihnyeyev.JPG");
             } else {
-                avatar.setImgLink(null);
+                avatar.setImage(null);
             }
 
-            if (valueString.indexOf("setName") > -1) {
+            if (valueString.contains("setName")) {
                 avatar.setName("Serhii Kulykov");
             } else {
                 avatar.setName(null);
             }
 
-            if (valueString.indexOf("setAbbr") > -1) {
-                avatar.setAbbr("YY");
+            if (valueString.contains("setAbbr")) {
+                avatar.setAbbreviation("YY");
             } else {
-                avatar.setAbbr(null);
+                avatar.setAbbreviation(null);
             }
         });
 

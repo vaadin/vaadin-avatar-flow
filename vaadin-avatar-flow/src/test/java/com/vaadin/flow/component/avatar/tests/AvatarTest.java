@@ -30,13 +30,13 @@ public class AvatarTest {
     private Avatar constructedAvatar;
     String name = "foo bar";
     String abbr = "fb";
-    String imgLink = "https://vaadin.com/";
+    String url = "https://vaadin.com/";
 
     @Test
     public void shouldCreateEmptyAvatarWithDefaultState() {
         Assert.assertNull("Initial name is null", avatar.getName());
-        Assert.assertNull("Initial abbr is null", avatar.getAbbr());
-        Assert.assertNull("Initial imgLink is null", avatar.getImgLink());
+        Assert.assertNull("Initial abbreviation is null", avatar.getAbbreviation());
+        Assert.assertNull("Initial image is null", avatar.getImage());
     }
 
     @Test
@@ -47,14 +47,14 @@ public class AvatarTest {
 
     @Test
     public void setAbbr_getAbbr() {
-        avatar.setAbbr(abbr);
-        Assert.assertEquals(avatar.getAbbr(), abbr);
+        avatar.setAbbreviation(abbr);
+        Assert.assertEquals(avatar.getAbbreviation(), abbr);
     }
 
     @Test
     public void setImgLink_getImgLink() {
-        avatar.setImgLink(imgLink);
-        Assert.assertEquals(avatar.getImgLink(), imgLink);
+        avatar.setImage(url);
+        Assert.assertEquals(avatar.getImage(), url);
     }
 
     @Test
@@ -64,20 +64,11 @@ public class AvatarTest {
     }
 
     @Test
-    public void constructAvatarWithNameAndAbbr() {
-        constructedAvatar = new Avatar(name, abbr);
+    public void constructAvatarWithNameAndImage() {
+        constructedAvatar = new Avatar(name, url);
 
         Assert.assertEquals(constructedAvatar.getName(), name);
-        Assert.assertEquals(constructedAvatar.getAbbr(), abbr);
-    }
-
-    @Test
-    public void constructAvatarWithNameAndAbbrAndImgLink() {
-        constructedAvatar = new Avatar(name, abbr, imgLink);
-
-        Assert.assertEquals(constructedAvatar.getName(), name);
-        Assert.assertEquals(constructedAvatar.getAbbr(), abbr);
-        Assert.assertEquals(constructedAvatar.getImgLink(), imgLink);
+        Assert.assertEquals(constructedAvatar.getImage(), url);
     }
 
 }
