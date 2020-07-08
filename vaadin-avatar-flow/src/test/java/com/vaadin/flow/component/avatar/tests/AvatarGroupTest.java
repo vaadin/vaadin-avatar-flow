@@ -101,5 +101,10 @@ public class AvatarGroupTest {
                 avatarGroup.getMax());
     }
 
+    @Test
+    public void getMax_returnsNull() {
+        Assert.assertNull(avatarGroup.getMax());
+    }
+
 
 }

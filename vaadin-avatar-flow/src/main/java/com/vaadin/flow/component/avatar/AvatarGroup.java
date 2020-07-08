@@ -30,6 +30,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -43,30 +44,6 @@ import java.util.List;
 public class AvatarGroup extends Component
     implements HasStyle, HasSize {
 
-    private List<AvatarGroupItem> items;
-
-    /**
-     * Creates an empty avatar group component.
-     */
-    public AvatarGroup() {
-    }
-
-    /**
-     * Creates an avatar group with the provided items to be displayed as
-     * avatars.
-     */
-    public AvatarGroup(Collection<AvatarGroupItem> items) {
-        setItems(items);
-    }
-
-    /**
-     * Creates an avatar group with the provided items to be displayed as
-     * avatars.
-     */
-    public AvatarGroup(AvatarGroupItem... items) {
-        setItems(items);
-    }
-
     /**
      * Item to be set as an avatar for the avatar group.
      *
@@ -78,7 +55,7 @@ public class AvatarGroup extends Component
         private String img;
 
         /**
-         * Creates a new empty avatar.
+         * Creates a new empty avatar group item.
          * <p>
          * The avatar displays the user icon in the avatar and "Anonymous"
          * in the tooltip unless overridden by setting other properties.
@@ -87,7 +64,7 @@ public class AvatarGroup extends Component
         }
 
         /**
-         * Creates a new avatar with the provided name.
+         * Creates a new avatar group item with the provided name.
          *
          * @param name
          *            the name for the avatar
@@ -98,7 +75,7 @@ public class AvatarGroup extends Component
         }
 
         /**
-         * Creates a new avatar with the provided name and url.
+         * Creates a new avatar group item with the provided name and url.
          *
          * @param name
          *            the name for the avatar
@@ -124,10 +101,10 @@ public class AvatarGroup extends Component
         /**
          * Sets the name for the avatar.
          * <p>
-         * Name is displayed in a tooltip on hover
+         * The name is displayed in a tooltip on hover.
          * <p>
          * Automatically deduced abbreviation is displayed in the avatar if no
-         * abbr or img is set
+         * abbreviation or image is set.
          *
          * @param name
          *            the name for the avatar
@@ -183,39 +160,59 @@ public class AvatarGroup extends Component
         @Override
         public String toString() {
             return '{'
-                + "name:" + name + ";"
-                + "abbr:" + abbr + ";"
-                + "img:" + img + ";"
-                + '}';
+                    + "name:" + name + ";"
+                    + "abbr:" + abbr + ";"
+                    + "img:" + img + ";"
+                    + '}';
         }
+    }
+
+    private List<AvatarGroupItem> items;
+
+    /**
+     * Creates an empty avatar group component.
+     */
+    public AvatarGroup() {
+    }
+
+    /**
+     * Creates an avatar group with the provided items to be displayed as
+     * avatars.
+     */
+    public AvatarGroup(Collection<AvatarGroupItem> items) {
+        setItems(items);
+    }
+
+    /**
+     * Creates an avatar group with the provided items to be displayed as
+     * avatars.
+     */
+    public AvatarGroup(AvatarGroupItem... items) {
+        setItems(items);
     }
 
     /**
      * Sets the items that will be displayed as avatars.
      *
      * @param items
-     *            the image url
+     *            the items to set
      */
     public void setItems(Collection<AvatarGroupItem> items) {
         this.items = new ArrayList<>(items);
 
-        setItems(createItemsJsonArray(items));
+        getElement().setPropertyJson("items", createItemsJsonArray(items));
     }
 
     /**
      * Sets the items that will be displayed as avatars.
      *
      * @param items
-     *            the items
+     *            the items to set
      */
     public void setItems(AvatarGroupItem... items) {
         this.items = new ArrayList<>(Arrays.asList(items));
 
-        setItems(createItemsJsonArray(this.items));
-    }
-
-    private void setItems(JsonArray items) {
-        getElement().setPropertyJson("items", items);
+        setItems(this.items);
     }
 
     private JsonArray createItemsJsonArray(Collection<AvatarGroupItem> items) {
@@ -241,28 +238,31 @@ public class AvatarGroup extends Component
     }
 
     /**
-     * Gets the items that were set for the avatar group.
+     * Gets the items that were set for the avatar group in an unmodifiable
+     * list.
      *
      * @return list of items
      */
     public List<AvatarGroupItem> getItems() {
-        return items;
+        return Collections.unmodifiableList(items);
     }
 
     /**
      * Sets the the maximum number of avatars to display.
      * <p>
-     * The remaining avatars will be shown in the dropdown
+     * By default, all the avatars are displayed. When max is set, the
+     * overflowing avatars are grouped into one avatar.
      *
      * @param max
-     *            the max number of avatars
+     *            the max number of avatars, or {@code null} to remove the max
      */
     public void setMax(Integer max) {
         getElement().setProperty("max", max);
     }
 
     /**
-     * Gets the maximum number of avatars to display.
+     * Gets the maximum number of avatars to display, or {@code null} if no max
+     * has been set.
      *
      * @return the max number of avatars
      * @see AvatarGroup#setMax(Integer)
