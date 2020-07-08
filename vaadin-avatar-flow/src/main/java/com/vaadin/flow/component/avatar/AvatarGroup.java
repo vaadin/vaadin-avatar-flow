@@ -19,6 +19,7 @@ package com.vaadin.flow.component.avatar;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasSize;
 import com.vaadin.flow.component.HasStyle;
+import com.vaadin.flow.component.HasTheme;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.dependency.NpmPackage;
@@ -32,6 +33,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Server-side component for the <code>vaadin-avatar-group</code> element.
@@ -42,7 +45,7 @@ import java.util.List;
 @JsModule("@vaadin/vaadin-avatar/src/vaadin-avatar-group.js")
 @NpmPackage(value = "@vaadin/vaadin-avatar", version = "1.0.0-alpha2")
 public class AvatarGroup extends Component
-    implements HasStyle, HasSize {
+    implements HasStyle, HasSize, HasTheme {
 
     /**
      * Item to be set as an avatar for the avatar group.
@@ -274,6 +277,31 @@ public class AvatarGroup extends Component
         }
 
         return null;
+    }
+
+    /**
+     * Adds theme variants to the avatar group component.
+     *
+     * @param variants
+     *            theme variants to add
+     */
+    public void addThemeVariants(AvatarGroupVariant... variants) {
+        getThemeNames()
+                .addAll(Stream.of(variants)
+                        .map(AvatarGroupVariant::getVariantName)
+                        .collect(Collectors.toList()));
+    }
+
+    /**
+     * Removes theme variants from the avatar group component.
+     *
+     * @param variants
+     *            theme variants to remove
+     */
+    public void removeThemeVariants(AvatarGroupVariant... variants) {
+        getThemeNames().removeAll(
+                Stream.of(variants).map(AvatarGroupVariant::getVariantName)
+                        .collect(Collectors.toList()));
     }
 
 }

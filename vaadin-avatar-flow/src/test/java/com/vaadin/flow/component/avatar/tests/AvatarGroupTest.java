@@ -18,11 +18,13 @@ package com.vaadin.flow.component.avatar.tests;
 
 import com.vaadin.flow.component.avatar.AvatarGroup;
 import com.vaadin.flow.component.avatar.AvatarGroup.AvatarGroupItem;
+import com.vaadin.flow.component.avatar.AvatarGroupVariant;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.assertTrue;
 
@@ -104,6 +106,15 @@ public class AvatarGroupTest {
     @Test
     public void getMax_returnsNull() {
         Assert.assertNull(avatarGroup.getMax());
+    }
+
+    @Test
+    public void addThemeVariant_themeAttributeContainsThemeVariant() {
+        avatarGroup.addThemeVariants(AvatarGroupVariant.SIZE_LARGE);
+
+        Set<String> themeNames = avatarGroup.getThemeNames();
+        Assert.assertTrue(themeNames
+                .contains(AvatarGroupVariant.SIZE_LARGE.getVariantName()));
     }
 
 
