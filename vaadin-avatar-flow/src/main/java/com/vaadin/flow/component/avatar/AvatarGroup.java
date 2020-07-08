@@ -26,6 +26,7 @@ import elemental.json.Json;
 import elemental.json.JsonArray;
 import elemental.json.JsonObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -71,7 +72,7 @@ public class AvatarGroup extends Component
      *
      * @author Vaadin Ltd
      */
-    public static class AvatarGroupItem {
+    public static class AvatarGroupItem implements Serializable  {
         private String name;
         private String abbr;
         private String img;
