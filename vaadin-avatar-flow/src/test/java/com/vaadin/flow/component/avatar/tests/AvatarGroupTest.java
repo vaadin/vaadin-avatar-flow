@@ -110,11 +110,11 @@ public class AvatarGroupTest {
 
     @Test
     public void addThemeVariant_themeAttributeContainsThemeVariant() {
-        avatarGroup.addThemeVariants(AvatarGroupVariant.SIZE_LARGE);
+        avatarGroup.addThemeVariants(AvatarGroupVariant.LUMO_LARGE);
 
         Set<String> themeNames = avatarGroup.getThemeNames();
         Assert.assertTrue(themeNames
-                .contains(AvatarGroupVariant.SIZE_LARGE.getVariantName()));
+                .contains(AvatarGroupVariant.LUMO_LARGE.getVariantName()));
     }
 
 
