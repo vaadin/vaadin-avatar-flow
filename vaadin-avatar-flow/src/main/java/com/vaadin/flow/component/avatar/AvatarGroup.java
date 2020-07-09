@@ -213,9 +213,7 @@ public class AvatarGroup extends Component
      *            the items to set
      */
     public void setItems(AvatarGroupItem... items) {
-        this.items = new ArrayList<>(Arrays.asList(items));
-
-        setItems(this.items);
+        setItems(Arrays.asList(items));
     }
 
     private JsonArray createItemsJsonArray(Collection<AvatarGroupItem> items) {
