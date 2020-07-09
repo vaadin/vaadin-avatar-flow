@@ -258,6 +258,31 @@ public class AvatarGroup extends Component
     }
 
     /**
+     * Adds the items to the list of displayed as avatars.
+     *
+     * @param items
+     *            the items to add
+     */
+    public void add(AvatarGroupItem... items) {
+        setItems(Stream.concat(this.items.stream(),
+                Arrays.stream(items)).collect(Collectors.toList()));
+    }
+
+    /**
+     * Removes the items from the list of displayed as avatars.
+     *
+     * @param items
+     *            the items to remove
+     */
+    public void remove(AvatarGroupItem... items) {
+        List<AvatarGroupItem> itemsToRemove = Arrays.asList(items);
+
+        setItems(new ArrayList<>(this.items).stream()
+                .filter(item -> !itemsToRemove.contains(item))
+                .collect(Collectors.toList()));
+    }
+
+    /**
      * Gets the items that were set for the avatar group in an unmodifiable
      * list.
      *

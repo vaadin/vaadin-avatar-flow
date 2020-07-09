@@ -23,6 +23,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -94,6 +95,31 @@ public class AvatarGroupTest {
 
         Assert.assertEquals(items,
                 createdAvatarGroup.getItems());
+    }
+
+    @Test
+    public void addItems_getItems() {
+        items.add(avatarGroupItem);
+        items.add(avatarGroupItem2);
+        avatarGroup.setItems(items);
+
+        AvatarGroupItem addedItem = new AvatarGroupItem("Bar Baz");
+        avatarGroup.add(addedItem);
+
+        Assert.assertEquals(Arrays.asList(avatarGroupItem, avatarGroupItem2,
+                addedItem), avatarGroup.getItems());
+    }
+
+    @Test
+    public void removeItems_getItems() {
+        items.add(avatarGroupItem);
+        items.add(avatarGroupItem2);
+        avatarGroup.setItems(items);
+
+        avatarGroup.remove(avatarGroupItem2);
+        items.remove(avatarGroupItem2);
+
+        Assert.assertEquals(items, avatarGroup.getItems());
     }
 
     @Test
