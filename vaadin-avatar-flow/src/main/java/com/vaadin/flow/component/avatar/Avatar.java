@@ -145,7 +145,7 @@ public class Avatar extends Component
     /**
      * Gets the color index for the avatar.
      *
-     * @return the color index
+     * @return the color index or {@code null} if the index has not been set
      */
     public Integer getColorIndex() {
         String colorIndex = getElement().getProperty("colorIndex");
@@ -160,17 +160,18 @@ public class Avatar extends Component
      * Sets the color index for the avatar.
      * <p>
      * The color index defines which color will be used for the border
-     * of the avatar.
+     * of the avatar. Color index N applies CSS variable
+     * {@code --vaadin-user-color-N} to the border.
      *
      * @param colorIndex
-     *            the color index
+     *            the color index or {@code null} to remove the index
      */
     public void setColorIndex(Integer colorIndex) {
         getElement().setProperty("colorIndex", colorIndex);
     }
 
     /**
-     * Adds theme variants to the avatar group component.
+     * Adds theme variants to the avatar component.
      *
      * @param variants
      *            theme variants to add
@@ -183,7 +184,7 @@ public class Avatar extends Component
     }
 
     /**
-     * Removes theme variants from the avatar group component.
+     * Removes theme variants from the avatar component.
      *
      * @param variants
      *            theme variants to remove

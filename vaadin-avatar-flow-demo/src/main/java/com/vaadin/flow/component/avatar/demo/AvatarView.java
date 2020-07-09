@@ -22,7 +22,6 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.demo.DemoView;
 import com.vaadin.flow.router.Route;
 
-import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
 
 import java.util.Collections;
@@ -73,14 +72,14 @@ public class AvatarView extends DemoView {
 
         CheckboxGroup checkboxGroup = new CheckboxGroup();
         checkboxGroup.setLabel("Set fields values");
-        checkboxGroup.setItems("setImgLink(\"photos/Yuriy-Yevstihnyeyev.JPG\")", "setName(\"Serhii Kulykov\")", "setAbbr(\"YY\")");
-        checkboxGroup.setValue(Collections.singleton("setImgLink(\"photos/Yuriy-Yevstihnyeyev.JPG\")"));
+        checkboxGroup.setItems("setImage(\"photos/Yuriy-Yevstihnyeyev.JPG\")", "setName(\"Serhii Kulykov\")", "setAbbreviation(\"YY\")");
+        checkboxGroup.setValue(Collections.singleton("setImage(\"photos/Yuriy-Yevstihnyeyev.JPG\")"));
         checkboxGroup.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL);
 
         checkboxGroup.addValueChangeListener(e -> {
             String valueString = e.getValue().toString();
 
-            if (valueString.contains("setImgLink")) {
+            if (valueString.contains("setImage")) {
                 avatar.setImage("https://vaadin.com/static/content/view/company/team/photos/Yuriy-Yevstihnyeyev.JPG");
             } else {
                 avatar.setImage(null);
@@ -92,7 +91,7 @@ public class AvatarView extends DemoView {
                 avatar.setName(null);
             }
 
-            if (valueString.contains("setAbbr")) {
+            if (valueString.contains("setAbbreviation")) {
                 avatar.setAbbreviation("YY");
             } else {
                 avatar.setAbbreviation(null);

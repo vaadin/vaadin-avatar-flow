@@ -83,4 +83,14 @@ public class AvatarTest {
                 .contains(AvatarVariant.LUMO_LARGE.getVariantName()));
     }
 
+    @Test
+    public void addThemeVariant_removeTheme_doesNotContainThemeVariant() {
+        avatar.addThemeVariants(AvatarVariant.LUMO_LARGE);
+        avatar.removeThemeVariants(AvatarVariant.LUMO_LARGE);
+
+        Set<String> themeNames = avatar.getThemeNames();
+        Assert.assertFalse(themeNames
+                .contains(AvatarVariant.LUMO_LARGE.getVariantName()));
+    }
+
 }
