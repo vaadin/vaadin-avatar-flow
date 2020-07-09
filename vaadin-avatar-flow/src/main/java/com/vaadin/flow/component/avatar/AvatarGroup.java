@@ -56,6 +56,7 @@ public class AvatarGroup extends Component
         private String name;
         private String abbr;
         private String img;
+        private Integer colorIndex;
 
         /**
          * Creates a new empty avatar group item.
@@ -167,6 +168,29 @@ public class AvatarGroup extends Component
                     + "abbr:" + abbr + ";"
                     + "img:" + img + ";"
                     + '}';
+        }
+
+        /**
+         * Gets the color index for the avatar group item.
+         *
+         * @return the color index or {@code null} if the index has not been set
+         */
+        public Integer getColorIndex() {
+            return colorIndex;
+        }
+
+        /**
+         * Sets the color index for the avatar group item.
+         * <p>
+         * The color index defines which color will be used for the border
+         * of the avatar. Color index N applies CSS variable
+         * {@code --vaadin-user-color-N} to the border.
+         *
+         * @param colorIndex
+         *            the color index or {@code null} to remove the index
+         */
+        public void setColorIndex(Integer colorIndex) {
+            this.colorIndex = colorIndex;
         }
     }
 

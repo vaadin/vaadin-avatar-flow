@@ -40,14 +40,9 @@ public class AvatarGroupTest {
     private String name = "foo bar";
     private String abbr = "fb";
     private String imgUrl = "https://vaadin.com/";
+    private Integer colorIndex = 3;
 
     private List<AvatarGroupItem> items = new ArrayList<>();
-
-
-    @Test
-    public void shouldHaveSomeTests() {
-        assertTrue(true);
-    }
 
     @Test
     public void setName_getName() {
@@ -65,6 +60,12 @@ public class AvatarGroupTest {
     public void setImgUrl_getImgUrl() {
         avatarGroupItem.setImage(imgUrl);
         Assert.assertEquals(avatarGroupItem.getImage(), imgUrl);
+    }
+
+    @Test
+    public void setColorIndex_getColorIndex() {
+        avatarGroupItem.setColorIndex(colorIndex);
+        Assert.assertEquals(avatarGroupItem.getColorIndex(), colorIndex);
     }
 
     @Test
@@ -117,5 +118,14 @@ public class AvatarGroupTest {
                 .contains(AvatarGroupVariant.LUMO_LARGE.getVariantName()));
     }
 
+    @Test
+    public void addThemeVariant_removeTheme_doesNotContainThemeVariant() {
+        avatarGroup.addThemeVariants(AvatarGroupVariant.LUMO_LARGE);
+        avatarGroup.removeThemeVariants(AvatarGroupVariant.LUMO_LARGE);
+
+        Set<String> themeNames = avatarGroup.getThemeNames();
+        Assert.assertFalse(themeNames
+                .contains(AvatarGroupVariant.LUMO_LARGE.getVariantName()));
+    }
 
 }
