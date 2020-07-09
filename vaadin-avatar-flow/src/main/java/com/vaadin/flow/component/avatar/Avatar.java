@@ -19,9 +19,13 @@ package com.vaadin.flow.component.avatar;
 import com.vaadin.flow.component.HasSize;
 import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.HasTheme;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.dependency.NpmPackage;
+
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Server-side component for the <code>vaadin-avatar</code> element.
@@ -32,7 +36,7 @@ import com.vaadin.flow.component.dependency.NpmPackage;
 @JsModule("@vaadin/vaadin-avatar/src/vaadin-avatar.js")
 @NpmPackage(value = "@vaadin/vaadin-avatar", version = "1.0.0-alpha2")
 public class Avatar extends Component
-    implements HasStyle, HasSize {
+    implements HasStyle, HasSize, HasTheme {
 
     /**
      * Creates a new empty avatar.
@@ -81,10 +85,10 @@ public class Avatar extends Component
     /**
      * Sets the name for the avatar.
      * <p>
-     * Name is displayed in a tooltip on hover
+     * The name is displayed in a tooltip on hover.
      * <p>
      * Automatically deduced abbreviation is displayed in the avatar if no
-     * abbr or img is set
+     * abbreviation or image is set.
      *
      * @param name
      *            the name for the avatar
@@ -144,9 +148,9 @@ public class Avatar extends Component
      * @return the color index
      */
     public Integer getColorIndex() {
-        String max = getElement().getProperty("colorIndex");
-        if (max != null && !max.isEmpty()) {
-            return Integer.parseInt(max);
+        String colorIndex = getElement().getProperty("colorIndex");
+        if (colorIndex != null && !colorIndex.isEmpty()) {
+            return Integer.parseInt(colorIndex);
         }
 
         return null;
@@ -155,7 +159,7 @@ public class Avatar extends Component
     /**
      * Sets the color index for the avatar.
      * <p>
-     * The color index defines which color will be used for the borde
+     * The color index defines which color will be used for the border
      * of the avatar.
      *
      * @param colorIndex
@@ -163,6 +167,31 @@ public class Avatar extends Component
      */
     public void setColorIndex(Integer colorIndex) {
         getElement().setProperty("colorIndex", colorIndex);
+    }
+
+    /**
+     * Adds theme variants to the avatar group component.
+     *
+     * @param variants
+     *            theme variants to add
+     */
+    public void addThemeVariants(AvatarVariant... variants) {
+        getThemeNames()
+                .addAll(Stream.of(variants)
+                        .map(AvatarVariant::getVariantName)
+                        .collect(Collectors.toList()));
+    }
+
+    /**
+     * Removes theme variants from the avatar group component.
+     *
+     * @param variants
+     *            theme variants to remove
+     */
+    public void removeThemeVariants(AvatarVariant... variants) {
+        getThemeNames().removeAll(
+                Stream.of(variants).map(AvatarVariant::getVariantName)
+                        .collect(Collectors.toList()));
     }
 
 }

@@ -16,10 +16,13 @@
 
 package com.vaadin.flow.component.avatar.tests;
 
+import com.vaadin.flow.component.avatar.AvatarVariant;
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.vaadin.flow.component.avatar.Avatar;
+
+import java.util.Set;
 
 /**
  * @author Vaadin Ltd.
@@ -69,6 +72,15 @@ public class AvatarTest {
 
         Assert.assertEquals(constructedAvatar.getName(), name);
         Assert.assertEquals(constructedAvatar.getImage(), url);
+    }
+
+    @Test
+    public void addThemeVariant_themeAttributeContainsThemeVariant() {
+        avatar.addThemeVariants(AvatarVariant.LUMO_LARGE);
+
+        Set<String> themeNames = avatar.getThemeNames();
+        Assert.assertTrue(themeNames
+                .contains(AvatarVariant.LUMO_LARGE.getVariantName()));
     }
 
 }
