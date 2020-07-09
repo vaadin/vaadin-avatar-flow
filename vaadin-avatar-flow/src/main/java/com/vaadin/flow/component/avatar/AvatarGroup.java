@@ -277,7 +277,7 @@ public class AvatarGroup extends Component
     public void remove(AvatarGroupItem... items) {
         List<AvatarGroupItem> itemsToRemove = Arrays.asList(items);
 
-        setItems(new ArrayList<>(this.items).stream()
+        setItems(this.items.stream()
                 .filter(item -> !itemsToRemove.contains(item))
                 .collect(Collectors.toList()));
     }
