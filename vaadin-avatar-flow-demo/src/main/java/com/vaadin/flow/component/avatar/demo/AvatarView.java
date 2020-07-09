@@ -37,7 +37,7 @@ public class AvatarView extends DemoView {
     @Override
     public void initView() {
         createBasicAvatar();
-        createAvatarWithCombinedFields();
+        createAvatarWithCombinedProperties();
     }
 
     private void createBasicAvatar() {
@@ -61,9 +61,9 @@ public class AvatarView extends DemoView {
         addCard("Basic usage", container);
     }
 
-    private void createAvatarWithCombinedFields() {
+    private void createAvatarWithCombinedProperties() {
         // begin-source-example
-        // source-example-heading: Combined fields
+        // source-example-heading: Combined properties
         Avatar avatar = new Avatar();
         avatar.setImage("https://vaadin.com/static/content/view/company/team/photos/Yuriy-Yevstihnyeyev.JPG");
 
@@ -71,7 +71,7 @@ public class AvatarView extends DemoView {
         // end-source-example
 
         CheckboxGroup checkboxGroup = new CheckboxGroup();
-        checkboxGroup.setLabel("Set fields values");
+        checkboxGroup.setLabel("Set avatar's properties");
         checkboxGroup.setItems("setImage(\"photos/Yuriy-Yevstihnyeyev.JPG\")", "setName(\"Serhii Kulykov\")", "setAbbreviation(\"YY\")");
         checkboxGroup.setValue(Collections.singleton("setImage(\"photos/Yuriy-Yevstihnyeyev.JPG\")"));
         checkboxGroup.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL);
@@ -98,7 +98,7 @@ public class AvatarView extends DemoView {
             }
         });
 
-        addCard("Combined fields", avatar, checkboxGroup);
+        addCard("Combined properties", avatar, checkboxGroup);
     }
 
 }
