@@ -247,6 +247,10 @@ public class AvatarGroup extends Component
                 jsonItem.put("img", item.getImage());
             }
 
+            if (item.getColorIndex() != null) {
+                jsonItem.put("colorIndex", item.getColorIndex());
+            }
+
             jsonItems.set(jsonItems.length(), jsonItem);
         }
 
