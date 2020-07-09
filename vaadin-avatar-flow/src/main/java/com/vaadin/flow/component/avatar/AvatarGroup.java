@@ -161,15 +161,6 @@ public class AvatarGroup extends Component
             this.img = url;
         }
 
-        @Override
-        public String toString() {
-            return '{'
-                    + "name:" + name + ";"
-                    + "abbr:" + abbr + ";"
-                    + "img:" + img + ";"
-                    + '}';
-        }
-
         /**
          * Gets the color index for the avatar group item.
          *
