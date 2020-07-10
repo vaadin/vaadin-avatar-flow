@@ -30,7 +30,7 @@ public class AvatarPage extends Div {
             if (avatar.getImage() == null || avatar.getImage().isEmpty()) {
                 avatar.setImage("https://vaadin.com/");
             } else {
-                avatar.setImage(null);
+                avatar.setImage((String) null);
             }
         });
         toggleImage.setId("toggle-img");

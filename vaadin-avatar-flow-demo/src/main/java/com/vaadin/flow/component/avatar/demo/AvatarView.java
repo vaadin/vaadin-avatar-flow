@@ -17,13 +17,20 @@
 package com.vaadin.flow.component.avatar.demo;
 
 import com.vaadin.flow.component.avatar.Avatar;
+import com.vaadin.flow.component.checkbox.CheckboxGroup;
 import com.vaadin.flow.component.checkbox.CheckboxGroupVariant;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.demo.DemoView;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.StreamResource;
 
-import com.vaadin.flow.component.checkbox.CheckboxGroup;
-
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collections;
 
 /**
@@ -51,12 +58,30 @@ public class AvatarView extends DemoView {
         Avatar avatarWithName = new Avatar();
         avatarWithName.setName("Yuriy Yevstihnyeyev");
 
-        Avatar avatarWithImg = new Avatar();
-        avatarWithImg.setImage("https://vaadin.com/static/content/view/company/team/photos/Yuriy-Yevstihnyeyev.JPG");
+        Avatar avatarWithImgUrl = new Avatar();
+        avatarWithImgUrl.setImage("https://vaadin.com/static/content/view/company/team/photos/Yuriy-Yevstihnyeyev.JPG");
 
-        add(anonymousAvatar, avatarWithAbbr, avatarWithName, avatarWithImg);
+        Avatar avatarWithImageResource = new Avatar();
+        StreamResource plusResource = new StreamResource("user+.png",
+            () -> {
+                BufferedImage img = null;
+                InputStream fis = null;
+                try {
+                    img = ImageIO.read(new File("src/main/resources/META-INF/resources/frontend/images/user.png"));
+                    ByteArrayOutputStream os = new ByteArrayOutputStream();
+                    ImageIO.write(img,"png", os);
+                    fis = new ByteArrayInputStream(os.toByteArray());
+                } catch (IOException e) {
+                    System.out.println(e);
+                }
+
+                return fis;
+            });
+        avatarWithImageResource.setImage(plusResource);
+
+        add(anonymousAvatar, avatarWithAbbr, avatarWithName, avatarWithImgUrl, avatarWithImageResource);
         // end-source-example
-        Div container = new Div(anonymousAvatar, avatarWithAbbr, avatarWithName, avatarWithImg);
+        Div container = new Div(anonymousAvatar, avatarWithAbbr, avatarWithName, avatarWithImgUrl, avatarWithImageResource);
 
         addCard("Basic usage", container);
     }
@@ -82,7 +107,7 @@ public class AvatarView extends DemoView {
             if (valueString.contains("setImage")) {
                 avatar.setImage("https://vaadin.com/static/content/view/company/team/photos/Yuriy-Yevstihnyeyev.JPG");
             } else {
-                avatar.setImage(null);
+                avatar.setImage((String)null);
             }
 
             if (valueString.contains("setName")) {
