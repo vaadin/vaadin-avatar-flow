@@ -74,7 +74,7 @@ public class AvatarPage extends Div {
                             ImageIO.write(img,"png", os);
                             fis = new ByteArrayInputStream(os.toByteArray());
                         } catch (IOException error) {
-                            System.out.println(error);
+                            // Handle exception
                         }
 
                         return fis;

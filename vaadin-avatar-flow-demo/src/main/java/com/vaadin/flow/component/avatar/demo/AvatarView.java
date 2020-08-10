@@ -72,7 +72,7 @@ public class AvatarView extends DemoView {
                     ImageIO.write(img,"png", os);
                     fis = new ByteArrayInputStream(os.toByteArray());
                 } catch (IOException e) {
-                    System.out.println(e);
+                    // Handle exception
                 }
 
                 return fis;

@@ -218,7 +218,7 @@ public class Avatar extends Component
     }
 
     private void deferRegistration(AbstractStreamResource resource) {
-        assert !(pendingRegistration != null);
+        assert pendingRegistration == null;
         Registration handle = getElement().getNode()
                 // This explicit class instantiation is the workaround
                 // which fixes a JVM optimization+serialization bug.
@@ -235,7 +235,7 @@ public class Avatar extends Component
     }
 
     private void registerResource(AbstractStreamResource resource) {
-        assert !(resourceRegistration != null);
+        assert resourceRegistration == null;
         StreamRegistration registration = getSession().getResourceRegistry()
                 .registerResource(resource);
         resourceRegistration = registration;
@@ -264,7 +264,7 @@ public class Avatar extends Component
             resource = Optional.ofNullable(registration.getResource());
         }
         unregisterResource();
-        resource.ifPresent(res -> deferRegistration(res));
+        resource.ifPresent(this::deferRegistration);
     }
 
     private VaadinSession getSession() {

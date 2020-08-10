@@ -243,7 +243,7 @@ public class AvatarGroup extends Component
                 return;
             }
 
-            pendingHandle = (Command) () -> {
+            pendingHandle = () -> {
                 doSetResource(resource);
                 registerResource(resource);
             };
@@ -265,7 +265,7 @@ public class AvatarGroup extends Component
         }
 
         private void registerResource(AbstractStreamResource resource) {
-            assert !(resourceRegistration != null);
+            assert resourceRegistration == null;
             StreamRegistration registration = getSession().getResourceRegistry()
                     .registerResource(resource);
             resourceRegistration = registration;
@@ -294,7 +294,7 @@ public class AvatarGroup extends Component
                 resource = Optional.ofNullable(registration.getResource());
             }
             unregisterResource();
-            resource.ifPresent(res -> deferRegistration(res));
+            resource.ifPresent(this::deferRegistration);
         }
 
         private VaadinSession getSession() {
