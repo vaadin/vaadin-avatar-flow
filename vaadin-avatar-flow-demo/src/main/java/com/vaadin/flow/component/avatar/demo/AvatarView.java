@@ -62,7 +62,7 @@ public class AvatarView extends DemoView {
         avatarWithImgUrl.setImage("https://vaadin.com/static/content/view/company/team/photos/Yuriy-Yevstihnyeyev.JPG");
 
         Avatar avatarWithImageResource = new Avatar();
-        StreamResource plusResource = new StreamResource("user+.png",
+        StreamResource avatarResource = new StreamResource("user+.png",
             () -> {
                 BufferedImage img = null;
                 InputStream fis = null;
@@ -77,7 +77,7 @@ public class AvatarView extends DemoView {
 
                 return fis;
             });
-        avatarWithImageResource.setImage(plusResource);
+        avatarWithImageResource.setImageResource(avatarResource);
 
         add(anonymousAvatar, avatarWithAbbr, avatarWithName, avatarWithImgUrl, avatarWithImageResource);
         // end-source-example
@@ -107,7 +107,7 @@ public class AvatarView extends DemoView {
             if (valueString.contains("setImage")) {
                 avatar.setImage("https://vaadin.com/static/content/view/company/team/photos/Yuriy-Yevstihnyeyev.JPG");
             } else {
-                avatar.setImage((String)null);
+                avatar.setImage(null);
             }
 
             if (valueString.contains("setName")) {

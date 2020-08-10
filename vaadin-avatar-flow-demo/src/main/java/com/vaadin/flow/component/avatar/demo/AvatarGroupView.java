@@ -60,7 +60,7 @@ public class AvatarGroupView extends DemoView {
         items.add(avatarWithAbbr);
 
         AvatarGroupItem avatarWithImageResource = new AvatarGroupItem();
-        StreamResource plusResource = new StreamResource("user+.png",
+        StreamResource avatarResource = new StreamResource("user+.png",
             () -> {
                 BufferedImage img = null;
                 InputStream fis = null;
@@ -75,7 +75,7 @@ public class AvatarGroupView extends DemoView {
 
                 return fis;
             });
-        avatarWithImageResource.setImage(plusResource);
+        avatarWithImageResource.setImageResource(avatarResource);
         items.add(avatarWithImageResource);
 
         items.add(new AvatarGroupItem("Jens Jansson"));

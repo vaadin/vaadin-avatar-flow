@@ -74,6 +74,8 @@ public class AvatarGroup extends Component
         private Registration pendingRegistration;
         private Command pendingHandle;
 
+        private AbstractStreamResource imageResource;
+
         /**
          * Creates a new empty avatar group item.
          * <p>
@@ -165,6 +167,16 @@ public class AvatarGroup extends Component
         }
 
         /**
+         * Gets the image that was set for the avatar.
+         *
+         * @return the image resource value or {@code null} if the resource has
+         * not been set
+         */
+        public AbstractStreamResource getImageResource() {
+            return imageResource;
+        }
+
+        /**
          * Sets the image url for the avatar.
          * <p>
          * The image will be displayed in the avatar even if abbreviation or
@@ -185,13 +197,15 @@ public class AvatarGroup extends Component
          * avatar image.
          *
          * @param resource
-         *            the resource value, not null
+         *            the resource value or {@code null} to remove the resource
          */
-        public void setImage(AbstractStreamResource resource) {
-            setImageResource(resource);
-        }
+        public void setImageResource(AbstractStreamResource resource) {
+            imageResource = resource;
+            if (resource == null) {
+                unsetResource();
+                return;
+            }
 
-        private void setImageResource(AbstractStreamResource resource) {
             doSetResource(resource);
             if (getHost() != null && getHost().getElement().getNode().isAttached()) {
                 registerResource(resource);
@@ -221,7 +235,7 @@ public class AvatarGroup extends Component
             if (registration != null) {
                 registration.unregister();
             }
-            setImage((String)null);
+            setImage(null);
         }
 
         private void deferRegistration(AbstractStreamResource resource) {

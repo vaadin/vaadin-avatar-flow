@@ -19,6 +19,15 @@ import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.NativeButton;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.StreamResource;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
 @Route("avatar-test")
 public class AvatarPage extends Div {
@@ -30,7 +39,7 @@ public class AvatarPage extends Div {
             if (avatar.getImage() == null || avatar.getImage().isEmpty()) {
                 avatar.setImage("https://vaadin.com/");
             } else {
-                avatar.setImage((String) null);
+                avatar.setImage(null);
             }
         });
         toggleImage.setId("toggle-img");
@@ -53,6 +62,30 @@ public class AvatarPage extends Div {
         });
         toggleName.setId("toggle-name");
 
+        NativeButton toggleImgResource = new NativeButton("Toggle image resource", e -> {
+            if (avatar.getImageResource() == null) {
+                StreamResource avatarResource = new StreamResource("user+.png",
+                    () -> {
+                        BufferedImage img = null;
+                        InputStream fis = null;
+                        try {
+                            img = ImageIO.read(new File("../vaadin-avatar-flow-demo/src/main/resources/META-INF/resources/frontend/images/user.png"));
+                            ByteArrayOutputStream os = new ByteArrayOutputStream();
+                            ImageIO.write(img,"png", os);
+                            fis = new ByteArrayInputStream(os.toByteArray());
+                        } catch (IOException error) {
+                            System.out.println(error);
+                        }
+
+                        return fis;
+                    });
+                avatar.setImageResource(avatarResource);
+            } else {
+                avatar.setImageResource(null);
+            }
+        });
+        toggleImgResource.setId("toggle-res");
+
         Div dataImg = new Div();
         dataImg.setId("data-block-img");
 
@@ -62,13 +95,17 @@ public class AvatarPage extends Div {
         Div dataName = new Div();
         dataName.setId("data-block-name");
 
+        Div dataResource = new Div();
+        dataResource.setId("data-block-resource");
+
         NativeButton getPropertyValues = new NativeButton("Get properties", e -> {
             dataImg.setText(avatar.getElement().getProperty("img"));
             dataAbbr.setText(avatar.getElement().getProperty("abbr"));
             dataName.setText(avatar.getElement().getProperty("name"));
+            dataResource.setText(avatar.getElement().getProperty("img"));
         });
         getPropertyValues.setId("get-props");
 
-        add(avatar, toggleImage, toggleAbbr, toggleName, dataImg, dataAbbr, dataName, getPropertyValues);
+        add(avatar, toggleImage, toggleAbbr, toggleName, toggleImgResource, dataImg, dataAbbr, dataName, dataResource, getPropertyValues);
     }
 }

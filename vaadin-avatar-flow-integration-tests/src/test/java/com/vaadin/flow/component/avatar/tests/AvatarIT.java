@@ -46,10 +46,12 @@ public class AvatarIT extends AbstractComponentIT {
         WebElement toggleImg = findElement(By.id("toggle-img"));
         WebElement toggleAbbr = findElement(By.id("toggle-abbr"));
         WebElement toggleName = findElement(By.id("toggle-name"));
+        WebElement toggleResource = findElement(By.id("toggle-res"));
 
         WebElement imgBlock = findElement(By.id("data-block-img"));
         WebElement abbrBlock = findElement(By.id("data-block-abbr"));
         WebElement nameBlock = findElement(By.id("data-block-name"));
+        WebElement resourceBlock = findElement(By.id("data-block-resource"));
 
         toggleImg.click();
         getPropsBtn.click();
@@ -62,6 +64,10 @@ public class AvatarIT extends AbstractComponentIT {
         toggleName.click();
         getPropsBtn.click();
         Assert.assertEquals("Foo Bar", nameBlock.getText());
+
+        toggleResource.click();
+        getPropsBtn.click();
+        Assert.assertTrue("img url contains file name", resourceBlock.getText().contains("user%2B.png"));
     }
 
     @Test
@@ -69,14 +75,17 @@ public class AvatarIT extends AbstractComponentIT {
         WebElement toggleImg = findElement(By.id("toggle-img"));
         WebElement toggleAbbr = findElement(By.id("toggle-abbr"));
         WebElement toggleName = findElement(By.id("toggle-name"));
+        WebElement toggleResource = findElement(By.id("toggle-res"));
 
         WebElement imgBlock = findElement(By.id("data-block-img"));
         WebElement abbrBlock = findElement(By.id("data-block-abbr"));
         WebElement nameBlock = findElement(By.id("data-block-name"));
+        WebElement resourceBlock = findElement(By.id("data-block-resource"));
 
         toggleImg.click();
         toggleAbbr.click();
         toggleName.click();
+        toggleResource.click();
         getPropsBtn.click();
 
         toggleImg.click();
@@ -90,5 +99,9 @@ public class AvatarIT extends AbstractComponentIT {
         toggleName.click();
         getPropsBtn.click();
         Assert.assertEquals("", nameBlock.getText());
+
+        toggleName.click();
+        getPropsBtn.click();
+        Assert.assertEquals("", resourceBlock.getText());
     }
 }

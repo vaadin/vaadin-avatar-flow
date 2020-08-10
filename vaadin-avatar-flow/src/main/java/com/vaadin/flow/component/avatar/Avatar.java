@@ -51,6 +51,8 @@ public class Avatar extends Component
 
     private StreamRegistration resourceRegistration;
 
+    private AbstractStreamResource imageResource;
+
     private Registration pendingRegistration;
 
     /**
@@ -144,6 +146,16 @@ public class Avatar extends Component
     }
 
     /**
+     * Gets the image that was set for the avatar.
+     *
+     * @return the image resource value or {@code null} if the resource has not
+     * been set
+     */
+    public AbstractStreamResource getImageResource() {
+        return imageResource;
+    }
+
+    /**
      * Sets the image url for the avatar.
      * <p>
      * The image will be displayed in the avatar even if abbreviation or
@@ -164,13 +176,15 @@ public class Avatar extends Component
      * avatar image.
      *
      * @param resource
-     *            the resource value, not null
+     *            the resource value or {@code null} to remove the resource
      */
-    public void setImage(AbstractStreamResource resource) {
-        setImageResource(resource);
-    }
+    public void setImageResource(AbstractStreamResource resource) {
+        imageResource = resource;
+        if (resource == null) {
+            unsetResource();
+            return;
+        }
 
-    private void setImageResource(AbstractStreamResource resource) {
         doSetResource(resource);
         if (getElement().getNode().isAttached()) {
             registerResource(resource);
