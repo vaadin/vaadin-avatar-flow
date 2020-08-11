@@ -23,18 +23,8 @@ import com.vaadin.flow.component.HasTheme;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.dependency.NpmPackage;
-import com.vaadin.flow.internal.NodeOwner;
-import com.vaadin.flow.internal.StateTree;
 import com.vaadin.flow.server.AbstractStreamResource;
-import com.vaadin.flow.server.Command;
-import com.vaadin.flow.server.StreamRegistration;
-import com.vaadin.flow.server.StreamResource;
-import com.vaadin.flow.server.StreamResourceRegistry;
-import com.vaadin.flow.server.VaadinSession;
-import com.vaadin.flow.shared.Registration;
 
-import java.net.URI;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -49,11 +39,7 @@ import java.util.stream.Stream;
 public class Avatar extends Component
     implements HasStyle, HasSize, HasTheme {
 
-    private StreamRegistration resourceRegistration;
-
     private AbstractStreamResource imageResource;
-
-    private Registration pendingRegistration;
 
     /**
      * Creates a new empty avatar.
@@ -169,9 +155,8 @@ public class Avatar extends Component
      *            the image url
      */
     public void setImage(String url) {
+        imageResource = null;
         getElement().setProperty("img", url);
-
-        unsetResource();
     }
 
     /**
@@ -187,91 +172,11 @@ public class Avatar extends Component
     public void setImageResource(AbstractStreamResource resource) {
         imageResource = resource;
         if (resource == null) {
-            unsetResource();
+            getElement().removeAttribute("img");
             return;
         }
 
-        // The following is the copy of functionality from the ElementAttributeMap
-        doSetResource(resource);
-        if (getElement().getNode().isAttached()) {
-            registerResource(resource);
-        } else {
-            deferRegistration(resource);
-        }
-    }
-
-    private void doSetResource(AbstractStreamResource resource) {
-        final URI targetUri;
-        if (VaadinSession.getCurrent() != null) {
-            final StreamResourceRegistry resourceRegistry = VaadinSession
-                    .getCurrent().getResourceRegistry();
-            targetUri = resourceRegistry.getTargetURI(resource);
-        } else {
-            targetUri = StreamResourceRegistry.getURI(resource);
-        }
-        getElement().setProperty("img", targetUri.toASCIIString());
-    }
-
-    private void unregisterResource() {
-        StreamRegistration registration = resourceRegistration;
-        Registration handle = pendingRegistration;
-        if (handle != null) {
-            handle.remove();
-        }
-        if (registration != null) {
-            registration.unregister();
-        }
-        getElement().removeProperty("img");
-    }
-
-    private void deferRegistration(AbstractStreamResource resource) {
-        assert pendingRegistration == null;
-        Registration handle = getElement().getNode()
-                // Do not convert to lambda
-                .addAttachListener(new Command() {
-                    @Override
-                    public void execute() {
-                        doSetResource(resource);
-                        registerResource(resource);
-                    }
-                });
-        pendingRegistration = handle;
-    }
-
-    private void registerResource(AbstractStreamResource resource) {
-        assert resourceRegistration == null;
-        StreamRegistration registration = getSession().getResourceRegistry()
-                .registerResource(resource);
-        resourceRegistration = registration;
-        Registration handle = pendingRegistration;
-        if (handle != null) {
-            handle.remove();
-        }
-        pendingRegistration = getElement().getNode().addDetachListener(
-                // Do not convert to lambda
-                new Command() {
-                    @Override
-                    public void execute() {
-                        Avatar.this.unsetResource();
-                    }
-                });
-    }
-
-    private void unsetResource() {
-        imageResource = null;
-        StreamRegistration registration = resourceRegistration;
-        Optional<AbstractStreamResource> resource = Optional.empty();
-        if (registration != null) {
-            resource = Optional.ofNullable(registration.getResource());
-        }
-        unregisterResource();
-        resource.ifPresent(this::deferRegistration);
-    }
-
-    private VaadinSession getSession() {
-        NodeOwner owner = getElement().getNode().getOwner();
-        assert owner instanceof StateTree;
-        return ((StateTree) owner).getUI().getSession();
+        getElement().setAttribute("img", resource);
     }
 
     /**

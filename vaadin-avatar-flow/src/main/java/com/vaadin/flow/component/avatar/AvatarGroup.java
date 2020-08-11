@@ -235,7 +235,7 @@ public class AvatarGroup extends Component
             } else {
                 targetUri = StreamResourceRegistry.getURI(resource);
             }
-            setImage(targetUri.toASCIIString());
+            this.img = targetUri.toASCIIString();
         }
 
         private void unregisterResource() {
@@ -247,7 +247,7 @@ public class AvatarGroup extends Component
             if (registration != null) {
                 registration.unregister();
             }
-            setImage(null);
+            this.img = null;
         }
 
         private void deferRegistration(AbstractStreamResource resource) {
@@ -345,7 +345,7 @@ public class AvatarGroup extends Component
         }
     }
 
-    private List<AvatarGroupItem> items;
+    private List<AvatarGroupItem> items = Collections.emptyList();
 
     /**
      * Creates an empty avatar group component.
@@ -376,7 +376,9 @@ public class AvatarGroup extends Component
      *            the items to set
      */
     public void setItems(Collection<AvatarGroupItem> items) {
-        this.items.forEach(item -> item.setHost(null));
+        if (this.items.size() > 0) {
+            this.items.forEach(item -> item.setHost(null));
+        }
 
         this.items = new ArrayList<>(items);
         items.stream().forEach(item -> item.setHost(this));
