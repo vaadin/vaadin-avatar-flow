@@ -160,21 +160,27 @@ public class Avatar extends Component
      * <p>
      * The image will be displayed in the avatar even if abbreviation or
      * name is set.
+     * <p>
+     * Setting the image with this method resets the image resource provided
+     * with {@link Avatar#setImageResource(AbstractStreamResource)}
      *
+     * @see Avatar#setImageResource(AbstractStreamResource)
      * @param url
      *            the image url
      */
     public void setImage(String url) {
         getElement().setProperty("img", url);
+
+        unsetResource();
     }
 
     /**
      * Sets the image for the avatar.
      * <p>
-     * This is a convenience method to register a {@link StreamResource}
-     * instance into the session and use the registered resource URI as an
-     * avatar image.
+     * Setting the image as a resource with this method resets the image URL
+     * that was set with {@link Avatar#setImage(String)}
      *
+     * @see Avatar#setImage(String)
      * @param resource
      *            the resource value or {@code null} to remove the resource
      */
@@ -185,6 +191,7 @@ public class Avatar extends Component
             return;
         }
 
+        // The following is the copy of functionality from the ElementAttributeMap
         doSetResource(resource);
         if (getElement().getNode().isAttached()) {
             registerResource(resource);
@@ -220,10 +227,7 @@ public class Avatar extends Component
     private void deferRegistration(AbstractStreamResource resource) {
         assert pendingRegistration == null;
         Registration handle = getElement().getNode()
-                // This explicit class instantiation is the workaround
-                // which fixes a JVM optimization+serialization bug.
                 // Do not convert to lambda
-                // Detected under Win7_64 /JDK 1.8.0_152, 1.8.0_172
                 .addAttachListener(new Command() {
                     @Override
                     public void execute() {
@@ -244,11 +248,7 @@ public class Avatar extends Component
             handle.remove();
         }
         pendingRegistration = getElement().getNode().addDetachListener(
-                // This explicit class instantiation is the workaround
-                // which fixes a JVM optimization+serialization bug.
                 // Do not convert to lambda
-                // Detected under Win7_64 /JDK 1.8.0_152, 1.8.0_172
-                // see ElementAttributeMap#deferRegistration
                 new Command() {
                     @Override
                     public void execute() {
@@ -258,6 +258,7 @@ public class Avatar extends Component
     }
 
     private void unsetResource() {
+        imageResource = null;
         StreamRegistration registration = resourceRegistration;
         Optional<AbstractStreamResource> resource = Optional.empty();
         if (registration != null) {

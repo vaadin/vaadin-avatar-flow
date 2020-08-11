@@ -23,11 +23,9 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.demo.DemoView;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.StreamResource;
+import org.apache.commons.io.FileUtils;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -64,14 +62,12 @@ public class AvatarView extends DemoView {
         Avatar avatarWithImageResource = new Avatar();
         StreamResource avatarResource = new StreamResource("user+.png",
             () -> {
-                BufferedImage img = null;
                 InputStream fis = null;
                 try {
-                    img = ImageIO.read(new File("src/main/resources/META-INF/resources/frontend/images/user.png"));
-                    ByteArrayOutputStream os = new ByteArrayOutputStream();
-                    ImageIO.write(img,"png", os);
-                    fis = new ByteArrayInputStream(os.toByteArray());
-                } catch (IOException e) {
+                    fis = new ByteArrayInputStream(
+                            FileUtils.readFileToByteArray(
+                                    new File("../vaadin-avatar-flow-demo/src/main/resources/META-INF/resources/frontend/images/user.png")));
+                } catch (IOException error) {
                     // Handle exception
                 }
 

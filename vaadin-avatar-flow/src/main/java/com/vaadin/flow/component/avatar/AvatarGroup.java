@@ -181,11 +181,17 @@ public class AvatarGroup extends Component
          * <p>
          * The image will be displayed in the avatar even if abbreviation or
          * name is set.
+         * <p>
+         * Setting the image with this method resets the image resource provided
+         * with {@link AvatarGroupItem#setImageResource(AbstractStreamResource)}
          *
+         * @see AvatarGroupItem#setImageResource(AbstractStreamResource)
          * @param url
          *            the image url
          */
         public void setImage(String url) {
+            unsetResource();
+
             this.img = url;
         }
 
@@ -195,17 +201,23 @@ public class AvatarGroup extends Component
          * This is a convenience method to register a {@link StreamResource}
          * instance into the session and use the registered resource URI as an
          * avatar image.
+         * <p>
+         * Setting the image as a resource with this method resets the image URL
+         * that was set with {@link AvatarGroupItem#setImage(String)}
          *
+         * @see AvatarGroupItem#setImage(String)
          * @param resource
          *            the resource value or {@code null} to remove the resource
          */
         public void setImageResource(AbstractStreamResource resource) {
             imageResource = resource;
+
             if (resource == null) {
                 unsetResource();
                 return;
             }
 
+            // The following is the copy of functionality from the ElementAttributeMap
             doSetResource(resource);
             if (getHost() != null && getHost().getElement().getNode().isAttached()) {
                 registerResource(resource);
@@ -256,10 +268,7 @@ public class AvatarGroup extends Component
 
         private void attachPendingRegistration(Command pendingHandle) {
             Registration handle = getHost().getElement().getNode()
-                    // This explicit class instantiation is the workaround
-                    // which fixes a JVM optimization+serialization bug.
                     // Do not convert to lambda
-                    // Detected under Win7_64 /JDK 1.8.0_152, 1.8.0_172
                     .addAttachListener(pendingHandle);
             pendingRegistration = handle;
         }
@@ -274,11 +283,7 @@ public class AvatarGroup extends Component
                 handle.remove();
             }
             pendingRegistration = getHost().getElement().getNode().addDetachListener(
-                    // This explicit class instantiation is the workaround
-                    // which fixes a JVM optimization+serialization bug.
                     // Do not convert to lambda
-                    // Detected under Win7_64 /JDK 1.8.0_152, 1.8.0_172
-                    // see ElementAttributeMap#deferRegistration
                     new Command() {
                         @Override
                         public void execute() {
@@ -288,6 +293,7 @@ public class AvatarGroup extends Component
         }
 
         private void unsetResource() {
+            imageResource = null;
             StreamRegistration registration = resourceRegistration;
             Optional<AbstractStreamResource> resource = Optional.empty();
             if (registration != null) {
@@ -370,6 +376,8 @@ public class AvatarGroup extends Component
      *            the items to set
      */
     public void setItems(Collection<AvatarGroupItem> items) {
+        this.items.forEach(item -> item.setHost(null));
+
         this.items = new ArrayList<>(items);
         items.stream().forEach(item -> item.setHost(this));
 
