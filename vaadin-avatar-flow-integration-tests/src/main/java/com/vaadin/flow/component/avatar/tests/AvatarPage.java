@@ -80,7 +80,7 @@ public class AvatarPage extends Div {
         dataResource.setId("data-block-resource");
 
         NativeButton getPropertyValues = new NativeButton("Get properties", e -> {
-            dataImg.setText(avatar.getElement().getProperty("img"));
+            dataImg.setText(avatar.getElement().getAttribute("img"));
             dataAbbr.setText(avatar.getElement().getProperty("abbr"));
             dataName.setText(avatar.getElement().getProperty("name"));
             dataResource.setText(avatar.getElement().getAttribute("img"));

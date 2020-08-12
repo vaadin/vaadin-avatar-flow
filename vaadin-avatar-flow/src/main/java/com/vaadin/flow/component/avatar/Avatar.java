@@ -156,7 +156,12 @@ public class Avatar extends Component
      */
     public void setImage(String url) {
         imageResource = null;
-        getElement().setAttribute("img", url);
+
+        if (url == null) {
+            getElement().removeAttribute("img");
+        } else {
+            getElement().setAttribute("img", url);
+        }
     }
 
     /**
