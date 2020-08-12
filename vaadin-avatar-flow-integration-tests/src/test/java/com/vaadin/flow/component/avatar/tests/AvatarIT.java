@@ -82,12 +82,11 @@ public class AvatarIT extends AbstractComponentIT {
         WebElement nameBlock = findElement(By.id("data-block-name"));
         WebElement resourceBlock = findElement(By.id("data-block-resource"));
 
-        toggleImg.click();
         toggleAbbr.click();
         toggleName.click();
-        toggleResource.click();
         getPropsBtn.click();
 
+        toggleImg.click();
         toggleImg.click();
         getPropsBtn.click();
         Assert.assertEquals("", imgBlock.getText());
@@ -100,7 +99,8 @@ public class AvatarIT extends AbstractComponentIT {
         getPropsBtn.click();
         Assert.assertEquals("", nameBlock.getText());
 
-        toggleName.click();
+        toggleResource.click();
+        toggleResource.click();
         getPropsBtn.click();
         Assert.assertEquals("", resourceBlock.getText());
     }

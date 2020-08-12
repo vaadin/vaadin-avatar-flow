@@ -198,10 +198,6 @@ public class AvatarGroup extends Component
         /**
          * Sets the image for the avatar.
          * <p>
-         * This is a convenience method to register a {@link StreamResource}
-         * instance into the session and use the registered resource URI as an
-         * avatar image.
-         * <p>
          * Setting the image as a resource with this method resets the image URL
          * that was set with {@link AvatarGroupItem#setImage(String)}
          *
@@ -376,9 +372,7 @@ public class AvatarGroup extends Component
      *            the items to set
      */
     public void setItems(Collection<AvatarGroupItem> items) {
-        if (this.items.size() > 0) {
-            this.items.forEach(item -> item.setHost(null));
-        }
+        this.items.forEach(item -> item.setHost(null));
 
         this.items = new ArrayList<>(items);
         items.stream().forEach(item -> item.setHost(this));

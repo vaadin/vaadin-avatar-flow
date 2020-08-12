@@ -16,6 +16,7 @@
 
 package com.vaadin.flow.component.avatar.demo;
 
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
 import com.vaadin.flow.component.checkbox.CheckboxGroupVariant;
@@ -28,7 +29,7 @@ import org.apache.commons.io.FileUtils;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.util.Collections;
 
 /**
@@ -43,6 +44,9 @@ public class AvatarView extends DemoView {
     public void initView() {
         createBasicAvatar();
         createAvatarWithCombinedProperties();
+
+        addCard("Resource helper method",
+                new Text("This method is used in the examples above"));
     }
 
     private void createBasicAvatar() {
@@ -61,18 +65,7 @@ public class AvatarView extends DemoView {
 
         Avatar avatarWithImageResource = new Avatar();
         StreamResource avatarResource = new StreamResource("user+.png",
-            () -> {
-                InputStream fis = null;
-                try {
-                    fis = new ByteArrayInputStream(
-                            FileUtils.readFileToByteArray(
-                                    new File("../vaadin-avatar-flow-demo/src/main/resources/META-INF/resources/frontend/images/user.png")));
-                } catch (IOException error) {
-                    // Handle exception
-                }
-
-                return fis;
-            });
+                () -> getByteArrayInputStream("../vaadin-avatar-flow-demo/src/main/resources/META-INF/resources/frontend/images/user.png"));
         avatarWithImageResource.setImageResource(avatarResource);
 
         add(anonymousAvatar, avatarWithAbbr, avatarWithName, avatarWithImgUrl, avatarWithImageResource);
@@ -121,4 +114,21 @@ public class AvatarView extends DemoView {
 
         addCard("Combined properties", avatar, checkboxGroup);
     }
+
+    // begin-source-example
+    // source-example-heading: Resource helper method
+
+    public static ByteArrayInputStream getByteArrayInputStream(String filePath) {
+        byte bFile[];
+        try {
+            bFile = FileUtils.readFileToByteArray(
+                    new File(filePath));
+        } catch (IOException error) {
+            throw new UncheckedIOException(error);
+        }
+
+        return new ByteArrayInputStream(bFile);
+    }
+
+    // end-source-example
 }

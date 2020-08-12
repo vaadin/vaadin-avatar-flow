@@ -20,12 +20,8 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.NativeButton;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.StreamResource;
-import org.apache.commons.io.FileUtils;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import static com.vaadin.flow.component.avatar.demo.AvatarView.getByteArrayInputStream;
 
 @Route("avatar-test")
 public class AvatarPage extends Div {
@@ -63,18 +59,7 @@ public class AvatarPage extends Div {
         NativeButton toggleImgResource = new NativeButton("Toggle image resource", e -> {
             if (avatar.getImageResource() == null) {
                 StreamResource avatarResource = new StreamResource("user+.png",
-                    () -> {
-                        InputStream fis = null;
-                        try {
-                            fis = new ByteArrayInputStream(
-                                    FileUtils.readFileToByteArray(
-                                            new File("../vaadin-avatar-flow-demo/src/main/resources/META-INF/resources/frontend/images/user.png")));
-                        } catch (IOException error) {
-                            // Handle exception
-                        }
-
-                        return fis;
-                    });
+                    () -> getByteArrayInputStream("../vaadin-avatar-flow-demo/src/main/resources/META-INF/resources/frontend/images/user.png"));
                 avatar.setImageResource(avatarResource);
             } else {
                 avatar.setImageResource(null);
@@ -98,7 +83,7 @@ public class AvatarPage extends Div {
             dataImg.setText(avatar.getElement().getProperty("img"));
             dataAbbr.setText(avatar.getElement().getProperty("abbr"));
             dataName.setText(avatar.getElement().getProperty("name"));
-            dataResource.setText(avatar.getElement().getProperty("img"));
+            dataResource.setText(avatar.getElement().getAttribute("img"));
         });
         getPropertyValues.setId("get-props");
 

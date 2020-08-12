@@ -128,7 +128,7 @@ public class Avatar extends Component
      * @return the image url
      */
     public String getImage() {
-        return getElement().getProperty("img");
+        return getElement().getAttribute("img");
     }
 
     /**
@@ -156,7 +156,7 @@ public class Avatar extends Component
      */
     public void setImage(String url) {
         imageResource = null;
-        getElement().setProperty("img", url);
+        getElement().setAttribute("img", url);
     }
 
     /**

@@ -21,14 +21,12 @@ import com.vaadin.flow.component.avatar.AvatarGroup.AvatarGroupItem;
 import com.vaadin.flow.demo.DemoView;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.StreamResource;
-import org.apache.commons.io.FileUtils;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.vaadin.flow.component.avatar.demo.AvatarView.getByteArrayInputStream;
+
 
 /**
  * View for {@link AvatarGroup} demo.
@@ -59,18 +57,7 @@ public class AvatarGroupView extends DemoView {
 
         AvatarGroupItem avatarWithImageResource = new AvatarGroupItem();
         StreamResource avatarResource = new StreamResource("user+.png",
-            () -> {
-                InputStream fis = null;
-                try {
-                    fis = new ByteArrayInputStream(
-                            FileUtils.readFileToByteArray(
-                                    new File("../vaadin-avatar-flow-demo/src/main/resources/META-INF/resources/frontend/images/user.png")));
-                } catch (IOException error) {
-                    // Handle exception
-                }
-
-                return fis;
-            });
+            () -> getByteArrayInputStream("../vaadin-avatar-flow-demo/src/main/resources/META-INF/resources/frontend/images/user.png"));
         avatarWithImageResource.setImageResource(avatarResource);
         items.add(avatarWithImageResource);
 
