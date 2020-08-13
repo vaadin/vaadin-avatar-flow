@@ -28,7 +28,9 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.util.Collections;
 
@@ -65,7 +67,7 @@ public class AvatarView extends DemoView {
 
         Avatar avatarWithImageResource = new Avatar();
         StreamResource avatarResource = new StreamResource("user+.png",
-                () -> getByteArrayInputStream("../vaadin-avatar-flow-demo/src/main/resources/META-INF/resources/frontend/images/user.png"));
+                () -> getFileStream("../vaadin-avatar-flow-demo/src/main/resources/META-INF/resources/frontend/images/user.png"));
         avatarWithImageResource.setImageResource(avatarResource);
 
         add(anonymousAvatar, avatarWithAbbr, avatarWithName, avatarWithImgUrl, avatarWithImageResource);
@@ -118,16 +120,12 @@ public class AvatarView extends DemoView {
     // begin-source-example
     // source-example-heading: Resource helper method
 
-    public static ByteArrayInputStream getByteArrayInputStream(String filePath) {
-        byte bFile[];
+    public static InputStream getFileStream(String filePath) {
         try {
-            bFile = FileUtils.readFileToByteArray(
-                    new File(filePath));
+            return new FileInputStream(filePath);
         } catch (IOException error) {
             throw new UncheckedIOException(error);
         }
-
-        return new ByteArrayInputStream(bFile);
     }
 
     // end-source-example

@@ -25,7 +25,7 @@ import com.vaadin.flow.server.StreamResource;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.vaadin.flow.component.avatar.demo.AvatarView.getByteArrayInputStream;
+import static com.vaadin.flow.component.avatar.demo.AvatarView.getFileStream;
 
 
 /**
@@ -57,7 +57,7 @@ public class AvatarGroupView extends DemoView {
 
         AvatarGroupItem avatarWithImageResource = new AvatarGroupItem();
         StreamResource avatarResource = new StreamResource("user+.png",
-            () -> getByteArrayInputStream("../vaadin-avatar-flow-demo/src/main/resources/META-INF/resources/frontend/images/user.png"));
+            () -> getFileStream("../vaadin-avatar-flow-demo/src/main/resources/META-INF/resources/frontend/images/user.png"));
         avatarWithImageResource.setImageResource(avatarResource);
         items.add(avatarWithImageResource);
 
