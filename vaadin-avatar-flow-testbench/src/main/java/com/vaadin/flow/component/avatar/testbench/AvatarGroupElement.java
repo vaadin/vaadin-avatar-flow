@@ -39,4 +39,8 @@ public class AvatarGroupElement extends TestBenchElement {
         return $(AvatarElement.class).get(index);
     }
 
+    public String getAriaLabel() {
+        return getWrappedElement().getAttribute("aria-label");
+    }
+
 }

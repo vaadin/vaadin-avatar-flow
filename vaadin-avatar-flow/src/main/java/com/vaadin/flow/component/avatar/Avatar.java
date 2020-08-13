@@ -21,10 +21,16 @@ import com.vaadin.flow.component.HasSize;
 import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.HasTheme;
 import com.vaadin.flow.component.Tag;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.dependency.NpmPackage;
 import com.vaadin.flow.server.AbstractStreamResource;
+import com.vaadin.flow.function.SerializableConsumer;
+import com.vaadin.flow.internal.JsonSerializer;
+import elemental.json.JsonObject;
 
+import java.io.Serializable;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -40,6 +46,35 @@ public class Avatar extends Component
     implements HasStyle, HasSize, HasTheme {
 
     private AbstractStreamResource imageResource;
+
+    /**
+     * The internationalization properties for {@link AvatarGroup}.
+     */
+    public static class AvatarI18n implements Serializable {
+        private String anonymous;
+
+        /**
+         * Gets the translated word for {@code anonymous}.
+         *
+         * @return the translated word for anonymous
+         */
+        public String getAnonymous() {
+            return anonymous;
+        }
+
+        /**
+         * Sets the translated word for {@code anonymous}.
+         *
+         * @param anonymous the translated word for anonymous
+         * @return this instance for method chaining
+         */
+        public AvatarI18n setAnonymous(String anonymous) {
+            this.anonymous = anonymous;
+            return this;
+        }
+    }
+
+    private AvatarI18n i18n;
 
     /**
      * Creates a new empty avatar.
@@ -74,6 +109,48 @@ public class Avatar extends Component
     public Avatar(String name, String url) {
         setName(name);
         setImage(url);
+    }
+
+    /**
+     * Gets the internationalization object previously set for this component.
+     * <p>
+     * Note: updating the object content that is gotten from this method will
+     * not update the lang on the component if not set back using
+     * {@link Avatar#setI18n(AvatarI18n)}
+     *
+     * @return the i18n object. It will be <code>null</code>, If the i18n
+     *         properties weren't set.
+     */
+    public AvatarI18n getI18n() {
+        return i18n;
+    }
+
+    /**
+     * Sets the internationalization properties for this component.
+     *
+     * @param i18n
+     *            the internationalized properties, not <code>null</code>
+     */
+    public void setI18n(AvatarI18n i18n) {
+        Objects.requireNonNull(i18n,
+                "The I18N properties object should not be null");
+        this.i18n = i18n;
+        getUI().ifPresent(ui -> setI18nWithJS());
+    }
+
+    private void setI18nWithJS() {
+        runBeforeClientResponse(ui -> {
+            JsonObject i18nObject = (JsonObject) JsonSerializer.toJson(i18n);
+            for (String key : i18nObject.keys()) {
+                getElement().executeJs("this.set('i18n." + key + "', $0)",
+                        i18nObject.get(key));
+            }
+        });
+    }
+
+    void runBeforeClientResponse(SerializableConsumer<UI> command) {
+        getElement().getNode().runWhenAttached(ui -> ui
+                .beforeClientResponse(this, context -> command.accept(ui)));
     }
 
     /**

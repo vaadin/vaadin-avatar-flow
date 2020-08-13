@@ -21,6 +21,7 @@ import com.vaadin.flow.component.HasSize;
 import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.HasTheme;
 import com.vaadin.flow.component.Tag;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.dependency.NpmPackage;
 import com.vaadin.flow.internal.NodeOwner;
@@ -31,6 +32,8 @@ import com.vaadin.flow.server.StreamRegistration;
 import com.vaadin.flow.server.StreamResourceRegistry;
 import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.shared.Registration;
+import com.vaadin.flow.function.SerializableConsumer;
+import com.vaadin.flow.internal.JsonSerializer;
 import elemental.json.Json;
 import elemental.json.JsonArray;
 import elemental.json.JsonObject;
@@ -41,8 +44,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -340,7 +345,87 @@ public class AvatarGroup extends Component
         }
     }
 
+    /**
+     * The internationalization properties for {@link AvatarGroup}.
+     */
+    public static class AvatarGroupI18n implements Serializable {
+        private String anonymous;
+        private HashMap<String, String> activeUsers = new HashMap();
+
+        /**
+         * Gets the translated word for {@code anonymous}.
+         *
+         * @return the translated word for anonymous
+         */
+        public String getAnonymous() {
+            return anonymous;
+        }
+
+        /**
+         * Sets the translated word for {@code anonymous}.
+         *
+         * @param anonymous
+         *            the translated word for anonymous
+         * @return this instance for method chaining
+         */
+        public AvatarGroupI18n setAnonymous(String anonymous) {
+            this.anonymous = anonymous;
+            return this;
+        }
+
+        /**
+         * Gets the translated phrase for avatar group accessible label when
+         * having one active user.
+         *
+         * @return the translated word for the label
+         */
+        public String getOneActiveUser() {
+            return activeUsers.get("one");
+        }
+
+        /**
+         * Sets the translated phrase for avatar group accessible label when
+         * having one active user.
+         *
+         * @param oneActiveUser
+         *            the translated word for the label
+         * @return this instance for method chaining
+         */
+        public AvatarGroupI18n setOneActiveUser(String oneActiveUser) {
+            activeUsers.put("one", oneActiveUser);
+            return this;
+        }
+
+        /**
+         * Gets the translated phrase for avatar group accessible label when
+         * having many active users.
+         *
+         * @return the translated word for the label
+         */
+        public String getManyActiveUsers() {
+            return activeUsers.get("many");
+        }
+
+        /**
+         * Sets the translated phrase for avatar group accessible label when
+         * having many active users.
+         * <p>
+         * You can use word `{count}` in order to display current count of
+         * active users.
+         *
+         * @param manyActiveUsers
+         *            the translated word for the label
+         * @return this instance for method chaining
+         */
+        public AvatarGroupI18n setManyActiveUsers(String manyActiveUsers) {
+            activeUsers.put("many", manyActiveUsers);
+            return this;
+        }
+    }
+
     private List<AvatarGroupItem> items = Collections.emptyList();
+
+    private AvatarGroupI18n i18n;
 
     /**
      * Creates an empty avatar group component.
@@ -451,6 +536,54 @@ public class AvatarGroup extends Component
     }
 
     /**
+     * Gets the internationalization object previously set for this component.
+     * <p>
+     * Note: updating the object content that is gotten from this method will
+     * not update the lang on the component if not set back using
+     * {@link AvatarGroup#setI18n(AvatarGroupI18n)}
+     *
+     * @return the i18n object. It will be <code>null</code>, If the i18n
+     *         properties weren't set.
+     */
+    public AvatarGroupI18n getI18n() {
+        return i18n;
+    }
+
+    /**
+     * Sets the internationalization properties for this component.
+     *
+     * @param i18n
+     *            the internationalized properties, not <code>null</code>
+     */
+    public void setI18n(AvatarGroupI18n i18n) {
+        Objects.requireNonNull(i18n,
+                "The I18N properties object should not be null");
+        this.i18n = i18n;
+        getUI().ifPresent(ui -> setI18nWithJS());
+    }
+
+    private void setI18nWithJS() {
+        runBeforeClientResponse(ui -> {
+            JsonObject i18nObject = (JsonObject) JsonSerializer.toJson(i18n);
+            for (String key : i18nObject.keys()) {
+                String keyToSet = key;
+                if (key.equals("manyActiveUsers")) {
+                    keyToSet = "activeUsers.many";
+                } else if (key.equals("oneActiveUser")) {
+                    keyToSet = "activeUsers.one";
+                }
+                getElement().executeJs("this.set('i18n." + keyToSet + "', $0)",
+                        i18nObject.get(key));
+            }
+        });
+    }
+
+    void runBeforeClientResponse(SerializableConsumer<UI> command) {
+        getElement().getNode().runWhenAttached(ui -> ui
+                .beforeClientResponse(this, context -> command.accept(ui)));
+    }
+
+    /**
      * Sets the the maximum number of avatars to display.
      * <p>
      * By default, all the avatars are displayed. When max is set, the
@@ -503,5 +636,4 @@ public class AvatarGroup extends Component
                 Stream.of(variants).map(AvatarGroupVariant::getVariantName)
                         .collect(Collectors.toList()));
     }
-
 }
