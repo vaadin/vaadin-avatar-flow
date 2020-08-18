@@ -40,7 +40,7 @@ public class AvatarGroupElement extends TestBenchElement {
     }
 
     public String getAriaLabel() {
-        return getWrappedElement().getAttribute("aria-label");
+        return getAttribute("aria-label");
     }
 
 }

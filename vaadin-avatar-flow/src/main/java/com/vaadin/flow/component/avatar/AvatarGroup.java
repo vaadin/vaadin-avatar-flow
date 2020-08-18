@@ -21,9 +21,9 @@ import com.vaadin.flow.component.HasSize;
 import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.HasTheme;
 import com.vaadin.flow.component.Tag;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.dependency.NpmPackage;
+import com.vaadin.flow.internal.JsonSerializer;
 import com.vaadin.flow.internal.NodeOwner;
 import com.vaadin.flow.internal.StateTree;
 import com.vaadin.flow.server.AbstractStreamResource;
@@ -32,8 +32,6 @@ import com.vaadin.flow.server.StreamRegistration;
 import com.vaadin.flow.server.StreamResourceRegistry;
 import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.shared.Registration;
-import com.vaadin.flow.function.SerializableConsumer;
-import com.vaadin.flow.internal.JsonSerializer;
 import elemental.json.Json;
 import elemental.json.JsonArray;
 import elemental.json.JsonObject;
@@ -46,8 +44,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -353,9 +351,11 @@ public class AvatarGroup extends Component
         private HashMap<String, String> activeUsers = new HashMap();
 
         /**
-         * Gets the translated word for {@code anonymous}.
+         * Gets the translated word for {@code anonymous}. It's displayed in a
+         * tooltip on hover if the name is not defined.
          *
-         * @return the translated word for anonymous
+         * @return the translated word for anonymous. It will be
+         *         <code>null</code>, If the translation wasn't set
          */
         public String getAnonymous() {
             return anonymous;
@@ -365,10 +365,12 @@ public class AvatarGroup extends Component
          * Sets the translated word for {@code anonymous}.
          *
          * @param anonymous
-         *            the translated word for anonymous
+         *            the translated word for anonymous, not <code>null</code>
          * @return this instance for method chaining
          */
         public AvatarGroupI18n setAnonymous(String anonymous) {
+            Objects.requireNonNull(anonymous,
+                    "The translation should not be null");
             this.anonymous = anonymous;
             return this;
         }
@@ -377,7 +379,8 @@ public class AvatarGroup extends Component
          * Gets the translated phrase for avatar group accessible label when
          * having one active user.
          *
-         * @return the translated word for the label
+         * @return the translated word for the label. It will be
+         *         <code>null</code>, If the translation wasn't set
          */
         public String getOneActiveUser() {
             return activeUsers.get("one");
@@ -388,10 +391,12 @@ public class AvatarGroup extends Component
          * having one active user.
          *
          * @param oneActiveUser
-         *            the translated word for the label
+         *            the translated word for the label, not <code>null</code>
          * @return this instance for method chaining
          */
         public AvatarGroupI18n setOneActiveUser(String oneActiveUser) {
+            Objects.requireNonNull(oneActiveUser,
+                    "The translation should not be null");
             activeUsers.put("one", oneActiveUser);
             return this;
         }
@@ -400,7 +405,8 @@ public class AvatarGroup extends Component
          * Gets the translated phrase for avatar group accessible label when
          * having many active users.
          *
-         * @return the translated word for the label
+         * @return the translated word for the label. It will be
+         *         <code>null</code>, If the translation wasn't set
          */
         public String getManyActiveUsers() {
             return activeUsers.get("many");
@@ -410,14 +416,16 @@ public class AvatarGroup extends Component
          * Sets the translated phrase for avatar group accessible label when
          * having many active users.
          * <p>
-         * You can use word `{count}` in order to display current count of
-         * active users.
+         * You can use word <code>{count}</code> in order to display current count of
+         * active users. For example, "Currently {count} active users".
          *
          * @param manyActiveUsers
-         *            the translated word for the label
+         *            the translated word for the label, not <code>null</code>
          * @return this instance for method chaining
          */
         public AvatarGroupI18n setManyActiveUsers(String manyActiveUsers) {
+            Objects.requireNonNull(manyActiveUsers,
+                    "The translation should not be null");
             activeUsers.put("many", manyActiveUsers);
             return this;
         }
@@ -559,28 +567,17 @@ public class AvatarGroup extends Component
         Objects.requireNonNull(i18n,
                 "The I18N properties object should not be null");
         this.i18n = i18n;
-        getUI().ifPresent(ui -> setI18nWithJS());
-    }
-
-    private void setI18nWithJS() {
-        runBeforeClientResponse(ui -> {
-            JsonObject i18nObject = (JsonObject) JsonSerializer.toJson(i18n);
-            for (String key : i18nObject.keys()) {
-                String keyToSet = key;
-                if (key.equals("manyActiveUsers")) {
-                    keyToSet = "activeUsers.many";
-                } else if (key.equals("oneActiveUser")) {
-                    keyToSet = "activeUsers.one";
-                }
-                getElement().executeJs("this.set('i18n." + keyToSet + "', $0)",
-                        i18nObject.get(key));
+        JsonObject i18nObject = (JsonObject) JsonSerializer.toJson(i18n);
+        for (String key : i18nObject.keys()) {
+            String keyToSet = key;
+            if (key.equals("manyActiveUsers")) {
+                keyToSet = "activeUsers.many";
+            } else if (key.equals("oneActiveUser")) {
+                keyToSet = "activeUsers.one";
             }
-        });
-    }
-
-    void runBeforeClientResponse(SerializableConsumer<UI> command) {
-        getElement().getNode().runWhenAttached(ui -> ui
-                .beforeClientResponse(this, context -> command.accept(ui)));
+            getElement().executeJs("this.set('i18n." + keyToSet + "', $0)",
+                    i18nObject.get(key));
+        }
     }
 
     /**

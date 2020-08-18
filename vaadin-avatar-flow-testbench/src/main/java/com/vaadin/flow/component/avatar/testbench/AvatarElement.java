@@ -30,7 +30,7 @@ public class AvatarElement extends TestBenchElement {
     }
 
     public String getTitle() {
-        return getWrappedElement().getAttribute("title");
+        return getAttribute("title");
     }
 
 }
