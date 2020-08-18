@@ -568,16 +568,15 @@ public class AvatarGroup extends Component
                 "The I18N properties object should not be null");
         this.i18n = i18n;
         JsonObject i18nObject = (JsonObject) JsonSerializer.toJson(i18n);
-        for (String key : i18nObject.keys()) {
-            String keyToSet = key;
-            if (key.equals("manyActiveUsers")) {
-                keyToSet = "activeUsers.many";
-            } else if (key.equals("oneActiveUser")) {
-                keyToSet = "activeUsers.one";
-            }
-            getElement().executeJs("this.set('i18n." + keyToSet + "', $0)",
-                    i18nObject.get(key));
-        }
+        i18nObject.remove("manyActiveUsers");
+        i18nObject.remove("oneActiveUser");
+
+        JsonObject activeUsers = Json.createObject();
+        activeUsers.put("many", i18n.getManyActiveUsers());
+        activeUsers.put("one", i18n.getOneActiveUser());
+
+        i18nObject.put("activeUsers", activeUsers);
+        getElement().setPropertyJson("i18n", i18nObject);
     }
 
     /**

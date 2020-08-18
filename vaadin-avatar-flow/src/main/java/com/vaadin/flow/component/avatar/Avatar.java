@@ -138,10 +138,7 @@ public class Avatar extends Component
                 "The I18N properties object should not be null");
         this.i18n = i18n;
         JsonObject i18nObject = (JsonObject) JsonSerializer.toJson(i18n);
-        for (String key : i18nObject.keys()) {
-            getElement().executeJs("this.set('i18n." + key + "', $0)",
-                    i18nObject.get(key));
-        }
+        getElement().setPropertyJson("i18n", i18nObject);
     }
 
     /**
