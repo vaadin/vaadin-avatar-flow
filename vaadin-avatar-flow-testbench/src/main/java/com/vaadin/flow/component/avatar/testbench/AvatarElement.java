@@ -33,4 +33,8 @@ public class AvatarElement extends TestBenchElement {
         return getAttribute("title");
     }
 
+    public String getAbbr() {
+        return getPropertyString("abbr");
+    }
+
 }
