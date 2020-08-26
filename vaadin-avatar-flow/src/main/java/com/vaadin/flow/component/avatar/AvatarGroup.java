@@ -447,7 +447,7 @@ public class AvatarGroup extends Component
     }
 
     private List<AvatarGroupItem> items = Collections.emptyList();
-    boolean pendingUpdate = false;
+    private boolean pendingUpdate = false;
 
     private AvatarGroupI18n i18n;
 
