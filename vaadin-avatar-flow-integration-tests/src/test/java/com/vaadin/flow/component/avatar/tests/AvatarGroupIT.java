@@ -39,7 +39,7 @@ public class AvatarGroupIT extends AbstractComponentIT {
     }
 
     @Test
-    public void itemsAreUpdated() {
+    public void setItems_updateItemProperties_avatarsUpdated() {
         WebElement updateItems = findElement(By.id("update-items"));
 
         Assert.assertEquals("YY", getAvatarAbbr(0));

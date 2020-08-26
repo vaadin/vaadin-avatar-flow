@@ -447,6 +447,7 @@ public class AvatarGroup extends Component
     }
 
     private List<AvatarGroupItem> items = Collections.emptyList();
+    boolean pendingUpdate = false;
 
     private AvatarGroupI18n i18n;
 
@@ -483,7 +484,7 @@ public class AvatarGroup extends Component
 
         this.items = new ArrayList<>(items);
         items.stream().forEach(item -> item.setHost(this));
-        getElement().setPropertyJson("items", createItemsJsonArray(items));
+        setClientItems();
     }
 
     /**
@@ -497,9 +498,16 @@ public class AvatarGroup extends Component
     }
 
     private void setClientItems() {
-        getUI().ifPresent(ui -> ui.beforeClientResponse(this,
-                ctx -> getElement().setPropertyJson("items",
-                        createItemsJsonArray(items))));
+        if (!pendingUpdate) {
+            pendingUpdate = true;
+            getElement().getNode().runWhenAttached(ui ->
+                    ui.beforeClientResponse(this,
+                            ctx -> {
+                                getElement().setPropertyJson("items",
+                                        createItemsJsonArray(items));
+                                pendingUpdate = false;
+                            }));
+        }
     }
 
     private JsonArray createItemsJsonArray(Collection<AvatarGroupItem> items) {
