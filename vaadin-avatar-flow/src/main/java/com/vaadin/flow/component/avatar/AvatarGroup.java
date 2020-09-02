@@ -618,7 +618,7 @@ public class AvatarGroup extends Component
      *            limit
      */
     public void setMaxItemsVisible(Integer max) {
-        getElement().setProperty("max", max);
+        getElement().setProperty("maxItemsVisible", max);
     }
 
     /**
