@@ -277,6 +277,9 @@ public class AvatarGroup extends Component
         }
 
         private void attachPendingRegistration(Command pendingHandle) {
+            if (getHost().getElement().getNode().isAttached()) {
+                pendingHandle.execute();
+            }
             Registration handle = getHost().getElement().getNode()
                     // Do not convert to lambda
                     .addAttachListener(pendingHandle);
