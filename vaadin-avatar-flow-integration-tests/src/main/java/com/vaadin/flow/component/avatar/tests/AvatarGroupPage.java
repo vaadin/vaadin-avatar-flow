@@ -52,7 +52,7 @@ public class AvatarGroupPage extends Div {
 
         NativeButton setItemsWithResource = new NativeButton("Set new item with StreamResource image", e -> {
             StreamResource resource = new StreamResource("avatar-group-img",
-                    () -> getFileStream("../vaadin-avatar-flow-demo/src/main/resources/META-INF/resources/frontend/images/user.png"));
+                    () -> getFileStream("vaadin-avatar-flow-demo/src/main/resources/META-INF/resources/frontend/images/user.png"));
             AvatarGroupItem newItem = new AvatarGroupItem();
             newItem.setImageResource(resource);
 
