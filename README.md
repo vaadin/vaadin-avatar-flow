@@ -3,6 +3,10 @@
 This project is the Component wrapper implementation of [`<vaadin-avatar>`](https://github.com/vaadin/vaadin-avatar)
 element for use from the server side with [Vaadin Flow](https://github.com/vaadin/flow).
 
+⚠️ **This repository is deprecated**
+- Sources for this flow component can be found at https://github.com/vaadin/vaadin-flow-component
+- Tickets has been moved to the web component repository https://github.com/vaadin/<vaadin-component>
+
 ## Running the component demo
 Run from the command line:
 - `mvn -pl vaadin-avatar-flow-demo -Pwar install jetty:run`
