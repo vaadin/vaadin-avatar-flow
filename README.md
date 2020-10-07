@@ -5,7 +5,7 @@ element for use from the server side with [Vaadin Flow](https://github.com/vaadi
 
 ⚠️ **This repository is deprecated**
 - Sources for this flow component can be found at https://github.com/vaadin/vaadin-flow-component
-- Tickets has been moved to the web component repository https://github.com/vaadin/<vaadin-component>
+- Tickets has been moved to the web component repository https://github.com/vaadin/vaadin-avatar/issues
 
 ## Running the component demo
 Run from the command line:
