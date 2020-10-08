@@ -4,7 +4,7 @@ This project is the Component wrapper implementation of [`<vaadin-avatar>`](http
 element for use from the server side with [Vaadin Flow](https://github.com/vaadin/flow).
 
 ⚠️ **This repository is deprecated**
-- Sources for this flow component can be found at https://github.com/vaadin/vaadin-flow-component
+- Sources for this flow component can be found at https://github.com/vaadin/vaadin-flow-components
 - Tickets has been moved to the web component repository https://github.com/vaadin/vaadin-avatar/issues
 
 ## Running the component demo
